@@ -16,7 +16,6 @@
     "description": "Choose which network / blockchain to use.",
     "chain": {
       "name": "Chain",
-      "description": "Run this node on the given network.",
       "description": {
         "main": "Main Network",
         "test": "Test Network.",
@@ -68,7 +67,6 @@
     },
     "blockfilterindex": {
       "name": "Block Filter Index",
-      "description": "Maintain an index of compact filters by block",
       "description": {
         "0": "Disable compact filters.",
         "1": "Enable all compact filters.",
