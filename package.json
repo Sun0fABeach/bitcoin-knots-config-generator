@@ -1,8 +1,8 @@
 {
-  "name": "bitcoin-core-config-generator",
+  "name": "bitcoin-knots-config-generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://jlopp.github.io/bitcoin-core-config-generator",
+  "homepage": "https://bitcoin-knots-config-generator.netlify.app",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "react-scripts": "0.4.3",

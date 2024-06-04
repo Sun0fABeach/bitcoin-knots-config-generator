@@ -59,8 +59,8 @@
     }
   },
   "core": {
-    "section": "Bitcoin Core",
-    "description": "Basic parameters regarding Bitcoin Core node operation.",
+    "section": "Bitcoin Knots",
+    "description": "Basic parameters regarding Bitcoin Knots node operation.",
     "alertnotify": {
       "name": "Alert Notification",
       "description": "Execute command when an alert (or long fork) is received (%s in cmd is replaced by message)",
@@ -229,7 +229,7 @@
   },
   "debug": {
     "section": "Debugging & Testing",
-    "description": "Features that help developers who are testing changes to Bitcoin Core.",
+    "description": "Features that help developers who are testing changes to Bitcoin Knots.",
     "uacomment": {
       "name": "User Agent Comment",
       "description": "Append comment to the user agent string.",
@@ -864,7 +864,7 @@
     },
     "rpcauth": {
       "name": "RPC Auth",
-      "description": "Username and hashed password for JSON-RPC connections. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. RPC clients connect using rpcuser=<USERNAME>/rpcpassword=<PASSWORD> arguments. You can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator/. This option can be specified multiple times.",
+      "description": "Username and hashed password for JSON-RPC connections. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. RPC clients connect using rpcuser=<USERNAME>/rpcpassword=<PASSWORD> arguments. You can generate this value at https://bitcoin-knots-config-generator.netlify.app/. This option can be specified multiple times.",
       "default": ""
     },
     "rpcport": {
