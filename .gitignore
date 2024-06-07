@@ -16,3 +16,6 @@ npm-debug.log
 
 # IntelliJ
 .idea
+
+# Vim
+Session.vim
