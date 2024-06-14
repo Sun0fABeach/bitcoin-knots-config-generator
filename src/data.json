@@ -37,6 +37,7 @@
     },
     "regtest": {
       "name": "Regtest",
+      "shortDescription": "Run this node on its own independent test network. Equivalent to -chain=regtest.",
       "description": "Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development. Equivalent to -chain=regtest.",
       "default": 0
     },
@@ -45,18 +46,21 @@
       "description": "Use the signet chain. Equivalent to -chain=signet. Note that the network is defined by the -signetchallenge parameter",
       "default": 0
     },
-    "signetblocktime": {
-      "name": "Signet Blocktime (Knots Exclusive)",
-      "description": "Difficulty adjustment will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
-      "default": 600
-    },
     "signetchallenge": {
       "name": "Signet Challenge",
+      "shortDescription": "Blocks must satisfy the given script to be considered valid (only for signet networks).",
       "description": "Blocks must satisfy the given script to be considered valid (only for signet networks; defaults to the global default signet test network challenge).",
       "default": ""
     },
+    "signetblocktime": {
+      "name": "Signet Blocktime (Knots Exclusive)",
+      "shortDescription": "Difficulty adjustment will target a block time of the given amount in seconds (must have -signetchallenge set).",
+      "description": "Difficulty adjustment will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
+      "default": 600
+    },
     "signetseednode": {
       "name": "Signet Seed Node",
+      "shortDescription": "Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes).",
       "description": "Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes; defaults to the global default signet test network seed node(s)).",
       "default": ""
     },
@@ -102,11 +106,13 @@
     },
     "blocksonly": {
       "name": "Blocks Only Mode",
-      "description": "Whether to reject transactions from network peers. Disables automatic broadcast and rebroadcast of transactions, unless the source peer has the 'forcerelay' permission. RPC transactions are not affected.",
+      "shortDescription": "Only download and relay blocks - ignore unconfirmed transactions.",
+      "description": "Whether to reject unconfirmed transactions from network peers. Disables automatic broadcast and rebroadcast of transactions, unless the source peer has the 'forcerelay' permission. RPC transactions are not affected.",
       "default": 0
     },
     "assumevalid": {
       "name": "Assume Valid Chain History",
+      "shortDescription": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification.",
       "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n0000000000000000000101209b4ab3570862dc3fac8633eb62938a541c55a2ff\ntestnet:\n0000000000000093bcb68c03a9a168ae252572d348a2eaeba2cdf9231d73206f\nsignet:\n0000013d778ba3f914530f11f6b69869c9fab54acff85acd7b8201d111f19b7f.",
       "default": ""
     },
@@ -138,6 +144,7 @@
     },
     "dbcache": {
       "name": "DB Cache Size",
+      "shortDescription": "Set database cache size in MiB (4 to 1048576).",
       "description": "Set database cache size in MiB (4 to 1048576). Machines sync faster with a larger cache. In addition, unused mempool memory is shared for this cache (see -maxmempool).",
       "default": 450,
       "min": 4,
@@ -194,6 +201,7 @@
     },
     "minimumchainwork": {
       "name": "Minimum Chain Work",
+      "shortDescription": "Minimum work assumed to exist on a valid chain in hex.",
       "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n0000000000000000000000000000000000000000792b48315ca0b9035b965b8c\ntestnet:\n000000000000000000000000000000000000000000000b6a51f415a67c0da307\nsignet:\n000000000000000000000000000000000000000000000000000001ad46be4862",
       "default": "0000000000000000000000000000000000000000792b48315ca0b9035b965b8c"
     },
@@ -219,17 +227,20 @@
     },
     "prune": {
       "name": "Prune Old Blocks",
+      "shortDescription": "Reduce storage requirements by enabling pruning (deleting) of old blocks.",
       "description": "Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -coinstatsindex. WARNING: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, greater than 550 = automatically prune blocks to stay under target size in MiB).",
       "default": 0,
       "min": 0
     },
     "reindex-chainstate": {
       "name": "Reindex Chainstate",
+      "shortDescription": "Reindex chain state from the currently indexed blocks.",
       "description": "Reindex chain state from the currently indexed blocks. WARNING: very slow!",
       "default": 0
     },
     "reindex": {
       "name": "Reindex",
+      "shortDescription": "Rebuild chain state and block index from the blk*.dat files on disk.",
       "description": "Rebuild chain state and block index from the blk*.dat files on disk. If an assumeutxo snapshot was loaded, its chainstate will be wiped as well. The snapshot can then be reloaded via RPC. WARNING: very slow!",
       "default": 0
     },
@@ -240,6 +251,7 @@
     },
     "shutdownnotify": {
       "name": "Shutdown Notification",
+      "shortDescription": "Execute command immediately before beginning shutdown.",
       "description": "Execute command immediately before beginning shutdown. The need for shutdown may be urgent, so be careful not to delay it long (if the command doesn't require interaction with the server, consider having it fork into the background).",
       "default": ""
     },
@@ -269,6 +281,7 @@
     },
     "acceptstalefeeestimates": {
       "name": "Accept Stale Fee Estimates",
+      "shortDescription": "Read fee estimates even if they are over 60 hours old. Regtest only.",
       "description": "Read fee estimates even if they are stale (regtest only) fee estimates are considered stale if they are 60 hours old.",
       "default": 0
     },
@@ -289,12 +302,14 @@
     },
     "checkblocks": {
       "name": "Check Blocks",
+      "shortDescription": "How many recent blocks to check at startup (0 == check all blocks).",
       "description": "How many recent blocks to check at startup. (0 == check all blocks which is very slow!)",
       "default": 6,
       "min": 0
     },
     "checklevel": {
       "name": "Check Block Level",
+      "shortDescription": "How thorough the block verification of -checkblocks is (0-4).",
       "description": "How thorough the block verification of -checkblocks is: level 0 reads the blocks from disk, level 1 verifies block validity, level 2 verifies undo data, level 3 checks disconnection of tip blocks, level 4 tries to reconnect the blocks, each level includes the checks of the previous levels.",
       "default": 3,
       "min": 0,
@@ -520,6 +535,7 @@
     },
     "loglevel": {
       "name": "Log Level",
+      "shortDescription": "Set the global or per-category severity level for logging in the format of either <level> or <category>:<level>. Level values may be: info, debug, or trace. Format <category>:<level> may be specified multiple times.",
       "description": "Set the global or per-category severity level for logging in the format of either <level> or <category>:<level>. Level values may be: info, debug, or trace. Warning and error levels are always logged. If <category>:<level> is supplied, the setting will override the global one and may be specified multiple times. See 'debug' config for allowed category values.",
       "default": ""
     },
@@ -562,6 +578,7 @@
     },
     "maxtxfee": {
       "name": "Max Transaction Fee",
+      "shortDescription": "Maximum total fees (in BTC) to use in a single wallet transaction or raw transaction.",
       "description": "Maximum total fees (in BTC) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions.",
       "default": 0.1,
       "min": 0
@@ -734,7 +751,8 @@
     "description": "Options for how your node interacts with other peers on the network.",
     "addnode": {
       "name": "Connect to Peer",
-      "description": "Add a node IP address to connect to and attempt to keep the connection open. This option can be set multiple times to add multiple nodes. Connections are limited to 8 at a time and are counted separately from the maxconnections limit.",
+      "shortDescription": "Add a node IP address to connect to and attempt to keep the connection open. This option can be set multiple times.",
+      "description": "Add a node IP address to connect to and attempt to keep the connection open. This option can be set multiple times to add multiple nodes. Connections are limited to 8 at a time and are counted separately from the -maxconnections limit.",
       "default": ""
     },
     "asmap": {
@@ -760,6 +778,7 @@
     },
     "connect": {
       "name": "Only Connect to Peer",
+      "shortDescription": "Connect only to the specified node(s); can be set multiple times. -noconnect disables automatic connections.",
       "description": "Connect only to the specified node(s); can be set multiple times. -noconnect disables automatic connections (the rules for this peer are the same as for -addnode).",
       "default": ""
     },
@@ -800,6 +819,7 @@
     },
     "i2pacceptincoming": {
       "name": "Accept Incoming I2P Connections",
+      "shortDescription": "Whether to accept inbound I2P connections. Ignored if -i2psam is not set.",
       "description": "Whether to accept inbound I2P connections. Ignored if -i2psam is not set. Listening for incoming I2P connections is done through the SAM proxy, not by binding to a local address and port.",
       "default": 1
     },
@@ -819,6 +839,7 @@
     },
     "maxconnections": {
       "name": "Max Peer Connections",
+      "shortDescription": "Maintain at most N connections to peers.",
       "description": "Maintain at most N connections to peers. This limit does not apply to connections manually added via -addnode or the addnode RPC, which have a separate limit of 8.",
       "default": 125,
       "min": 0,
@@ -900,6 +921,7 @@
     },
     "port": {
       "name": "Listen Port",
+      "shortDescription": "Listen for incoming connections on non-default port. Defaults: (default: 8333, testnet: 18333, signet: 38333, regtest: 18444). Not relevant for I2P.",
       "description": "Listen for incoming connections on non-default port. Nodes not using the default ports (default: 8333, testnet: 18333, signet: 38333, regtest: 18444) are unlikely to get incoming connections. Not relevant for I2P.",
       "default": ""
     },
@@ -956,6 +978,7 @@
     },
     "whitebind": {
       "name": "Whitelist Bound IP Address",
+      "shortDescription": "Bind to the given address and add permission flags <[permissions@]addr> to the peers connecting to it. Use [host]:port notation for IPv6. Allowed permissions: bloomfilter, blockfilters, noban, forcerelay, relay, mempool, download, addr, forceinbound. Specify multiple permissions separated by commas (default: download,noban,mempool,relay). Can be specified multiple times.",
       "description": "Bind to the given address and add permission flags <[permissions@]addr> to the peers connecting to it. Use [host]:port notation for IPv6. Allowed permissions: bloomfilter (allow requesting BIP37 filtered blocks and transactions), blockfilters (serve compact block filters to peers per BIP157), noban (do not ban for misbehavior; implies download), forcerelay (relay transactions that are already in the mempool; implies relay), relay (relay even in -blocksonly mode, and unlimited transaction announcements), mempool (allow requesting BIP35 mempool contents), download (allow getheaders during IBD, no disconnect after maxuploadtarget limit), addr (responses to GETADDR avoid hitting the cache and contain random records with the most up-to-date info), forceinbound (when connections are full, attempt to evict a random unprotected inbound peer to open a slot; implies noban). Specify multiple permissions separated by commas (default: download,noban,mempool,relay). Can be specified multiple times.",
       "default": ""
     },
@@ -966,6 +989,7 @@
     },
     "maxuploadtarget": {
       "name": "Max Upload Target",
+      "shortDescription": "Tries to keep outbound traffic under the given target (in MiB per 24h). 0 = no limit.",
       "description": "Tries to keep outbound traffic under the given target (in MiB per 24h). Limit does not apply to peers with 'download' permission or blocks created within past week. 0 = no limit (default: 0M). Optional suffix units [k|K|m|M|g|G|t|T] (default: M). Lowercase is 1000 base while uppercase is 1024 base.",
       "default": "0M"
     }
@@ -1033,6 +1057,7 @@
     },
     "rpcbind": {
       "name": "Bind RPC Address",
+      "shortDescription": "Bind to given address to listen for JSON-RPC connections. This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost)",
       "description": "Bind to given address to listen for JSON-RPC connections. Do not expose the RPC server to untrusted networks such as the public internet! This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost)",
       "default": ""
     },
@@ -1053,6 +1078,7 @@
     },
     "rpcauth": {
       "name": "RPC Auth",
+      "shortDescription": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <USERNAME>:<SALT>$<HASH>. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. Can be specified multiple times.",
       "description": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in share/rpcauth. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. You can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator/. This option can be specified multiple times.",
       "default": ""
     },
@@ -1088,6 +1114,7 @@
     },
     "rpcwhitelist": {
       "name": "RPC Whitelist",
+      "shortDescription": "Set a whitelist to filter incoming RPC calls for a specific user. The field <whitelist> comes in the format: <USERNAME>:<rpc 1>,<rpc 2>,...,<rpc n>. If multiple whitelists are set for a given user, they are set-intersected.",
       "description": "Set a whitelist to filter incoming RPC calls for a specific user. The field <whitelist> comes in the format: <USERNAME>:<rpc 1>,<rpc 2>,...,<rpc n>. If multiple whitelists are set for a given user, they are set-intersected. See -rpcwhitelistdefault documentation for information on default whitelist behavior.",
       "default": ""
     },
@@ -1143,6 +1170,7 @@
     },
     "avoidpartialspends": {
       "name": "Avoid Partial Spends",
+      "shortDescription": "Group outputs by address, selecting all or none, instead of selecting on a per-output basis. Improves privacy at expense of higher transaction fees.",
       "description": "Group outputs by address, selecting many (possibly all) or none, instead of selecting on a per-output basis. Privacy is improved as addresses are mostly swept with fewer transactions and outputs are aggregated in clean change addresses. It may result in higher fees due to less optimal coin selection caused by this added limitation and possibly a larger-than-necessary number of inputs being used. Always enabled for wallets with \"avoid_reuse\" enabled, otherwise.",
       "default": 0
     },
@@ -1175,6 +1203,7 @@
     },
     "keypool": {
       "name": "Key Pool Size",
+      "shortDescription": "Set key pool size to <n>.",
       "description": "Set key pool size to <n>. Warning: Smaller sizes may increase the risk of losing funds when restoring from an old backup, if none of the addresses in the original keypool have been used.",
       "default": 1000,
       "min": 10
@@ -1204,6 +1233,7 @@
     },
     "paytxfee": {
       "name": "Pay Transaction Fee",
+      "shortDescription": "Fee rate (in BTC/kB) to add to transactions you send.",
       "description": "Fee rate (in BTC/kB) to add to transactions you send. Not recommended to set!",
       "default": 0
     },
@@ -1229,6 +1259,7 @@
     },
     "unsafesqlitesync": {
       "name": "Unsafe SQL Lite Sync",
+      "shortDescription": "Set SQLite synchronous=OFF to disable waiting for the database to sync to disk.",
       "description": "Set SQLite synchronous=OFF to disable waiting for the database to sync to disk. This is unsafe and can cause data loss and corruption. This option is only used by tests to improve their performance.",
       "default": 0
     },
@@ -1239,6 +1270,7 @@
     },
     "wallet": {
       "name": "Wallet Path",
+      "shortDescription": "Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. If the path is not absolute, it is interpreted relative to <walletdir>.",
       "description": "Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. Path is to a directory containing wallet data and log files. If the path is not absolute, it is interpreted relative to <walletdir>. This only loads existing wallets and does not create new ones. For backwards compatibility this also accepts names of existing top-level data files in <walletdir>.",
       "default": ""
     },
@@ -1259,6 +1291,7 @@
     },
     "walletnotify": {
       "name": "Wallet Notification",
+      "shortDescription": "Execute command when a wallet transaction changes. Replacements: %s = TxID, %w = wallet name, %b = hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included), %h = block height (-1 if not included).",
       "description": "Execute command when a wallet transaction changes. %s in cmd is replaced by TxID, %w is replaced by wallet name, %b is replaced by the hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included) and %h is replaced by the block height (-1 if not included). %w should NOT be quoted because this would break shell escaping used to invoke the command.",
       "default": ""
     },

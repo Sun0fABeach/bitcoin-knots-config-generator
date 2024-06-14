@@ -137,16 +137,20 @@ function toComment (settings, section, key, value) {
   data[section] = data[section] || {};
   data[section][key] = data[section][key] || {};
 
-  if (typeof data[section][key].description === 'object') {
+  const description =
+    data[section][key].shortDescription ||
+    data[section][key].description
+
+  if (typeof description === 'object') {
     if (value === undefined || value.length === 0) {
       return;
     }
-    var description = fillDescription(data[section][key].description, value);
+    let descriptionText = fillDescription(description, value);
     // add a # after each newline except the last
-    description = description.replace(/(\n)/gm, '\n# ');
-    return description;
+    descriptionText = descriptionText.replace(/(\n)/gm, '\n# ');
+    return descriptionText;
   }
-  return fillDescription(data[section][key].description, value);
+  return fillDescription(description, value);
 }
 
 function toLine (key, val) {
