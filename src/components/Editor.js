@@ -111,12 +111,12 @@ class Editor extends Component {
         </Section>
         <Section title={data.chain.section} description={data.chain.description}>
           { this.select('chain', 'chain') }
+          { this.flag('chain', 'testnet') }
           { this.flag('chain', 'regtest') }
           { this.flag('chain', 'signet') }
-          { this.number('chain', 'signetblocktime') }
           { this.text('chain', 'signetchallenge') }
+          { this.number('chain', 'signetblocktime') }
           { this.text('chain', 'signetseednode') }
-          { this.flag('chain', 'testnet') }
           { this.text('chain', 'vbparams') }
         </Section>
         <Section title={data.mining.section} description={data.mining.description}>
