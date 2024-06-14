@@ -18,15 +18,17 @@
       "name": "Chain",
       "description": {
         "main": "Main Network",
-        "test": "Test Network.",
+        "test": "Test Network",
+        "signet": "Signature Network",
         "regtest": "Regression Test Network"
       },
-      "default": "main",
       "values": [
         "Mainnet [main]",
         "Testnet [test]",
+        "Signet [signet]",
         "Regtest [regtest]"
-      ]
+      ],
+      "default": "main"
     },
     "testnet": {
       "name": "Testnet",
@@ -35,7 +37,7 @@
     },
     "regtest": {
       "name": "Regtest",
-      "description": "Run this node on its own independent test network. Equivalent to -chain=regtest",
+      "description": "Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development. Equivalent to -chain=regtest.",
       "default": 0
     },
     "signet": {
@@ -43,13 +45,20 @@
       "description": "Use the signet chain. Equivalent to -chain=signet. Note that the network is defined by the -signetchallenge parameter",
       "default": 0
     },
+    "signetblocktime": {
+      "name": "Signet Blocktime (Knots Exclusive)",
+      "description": "Difficulty adjustment will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
+      "default": 600
+    },
     "signetchallenge": {
       "name": "Signet Challenge",
-      "description": "Blocks must satisfy the given script to be considered valid (only for signet networks)"
+      "description": "Blocks must satisfy the given script to be considered valid (only for signet networks; defaults to the global default signet test network challenge).",
+      "default": ""
     },
     "signetseednode": {
       "name": "Signet Seed Node",
-      "description": "Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes)"
+      "description": "Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes; defaults to the global default signet test network seed node(s)).",
+      "default": ""
     },
     "vbparams": {
       "name": "Version Bits Deployment Params",
@@ -68,14 +77,16 @@
     "blockfilterindex": {
       "name": "Block Filter Index",
       "description": {
-        "0": "Disable compact filters.",
-        "1": "Enable all compact filters.",
+        "0": "Disable compact filters",
+        "1": "Certain indexes are enabled (currently just basic)",
+        "v0": "v0",
         "basic": "Basic filters"
       },
       "default": "0",
       "values": [
         "Disable [0]",
         "Enable All [1]",
+        "v0 [v0]",
         "Basic Filters [basic]"
       ]
     },
@@ -91,12 +102,12 @@
     },
     "blocksonly": {
       "name": "Blocks Only Mode",
-      "description": "Only download and relay blocks - ignore unconfirmed transaction",
+      "description": "Whether to reject transactions from network peers. Disables automatic broadcast and rebroadcast of transactions, unless the source peer has the 'forcerelay' permission. RPC transactions are not affected.",
       "default": 0
     },
     "assumevalid": {
       "name": "Assume Valid Chain History",
-      "description": "Assume that this block hash and its ancestors are valid. Skip their script verification (performance boost.) Set to 0 to verify all blocks. We recommend leaving value blank.",
+      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n0000000000000000000101209b4ab3570862dc3fac8633eb62938a541c55a2ff\ntestnet:\n0000000000000093bcb68c03a9a168ae252572d348a2eaeba2cdf9231d73206f\nsignet:\n0000013d778ba3f914530f11f6b69869c9fab54acff85acd7b8201d111f19b7f.",
       "default": ""
     },
     "coinstatsindex": {
@@ -127,13 +138,31 @@
     },
     "dbcache": {
       "name": "DB Cache Size",
-      "description": "Set database cache size in MB; machines sync faster with a larger cache. Recommend setting to 4000 if RAM is available.",
+      "description": "Set database cache size in MiB (4 to 1048576). Machines sync faster with a larger cache. In addition, unused mempool memory is shared for this cache (see -maxmempool).",
       "default": 450,
-      "min": 4
+      "min": 4,
+      "max": 1048576
+    },
+    "dbfilesize": {
+      "name": "DB File Size (Knots Exclusive)",
+      "description": "Target size of files within databases, in MiB.",
+      "default": 128,
+      "min": 1,
+      "max": 1024
+    },
+    "lowmem": {
+      "name": "Low Memory (Knots Exclusive)",
+      "description": "If system available memory falls below <n> MiB, flush caches.",
+      "default": "10"
+    },
+    "confrw": {
+      "name": "Include Read/Write Config File (Knots Exclusive)",
+      "description": "Specify path to read/write configuration file. Relative paths will be prefixed by the network-specific datadir location.",
+      "default": "bitcoin_rw.conf"
     },
     "includeconf": {
-      "name": "Include Config File",
-      "description": "Load additional configuration file, relative to the data directory.",
+      "name": "Include Additional Config File",
+      "description": "Load additional configuration file, relative to the datadir path.",
       "default": ""
     },
     "allowignoredconf": {
@@ -165,8 +194,8 @@
     },
     "minimumchainwork": {
       "name": "Minimum Chain Work",
-      "description": "The (hex value) minimum amount of cumulative proof of work required.",
-      "default": "0x000000000000000000000000000000000000000000f91c579d57cad4bc5278cc"
+      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n0000000000000000000000000000000000000000792b48315ca0b9035b965b8c\ntestnet:\n000000000000000000000000000000000000000000000b6a51f415a67c0da307\nsignet:\n000000000000000000000000000000000000000000000000000001ad46be4862",
+      "default": "0000000000000000000000000000000000000000792b48315ca0b9035b965b8c"
     },
     "persistmempool": {
       "name": "Persist Mempool",
@@ -180,17 +209,17 @@
     },
     "par": {
       "name": "Script Verification Parallelization",
-      "description": "Set the number of script verification threads. (1 to CPU_CORES, 0 = automatic, less than 0 = leave that many cores free).",
+      "description": "Set the number of script verification threads. (1 up to 15, 0 = automatic, less than 0 = leave that many cores free).",
       "default": 0
     },
     "pid": {
       "name": "PID file",
-      "description": "Specify process ID file name. Ignored for Windows.",
+      "description": "Specify process ID file name. Relative paths will be prefixed by a net-specific datadir location.",
       "default": "bitcoind.pid"
     },
     "prune": {
       "name": "Prune Old Blocks",
-      "description": "Reduce storage requirements by only storing most recent N MiB of block. This mode is incompatible with -txindex and -coinstatsindex. WARNING: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, greater than 550 = automatically prune blocks to stay under target size in MiB).",
+      "description": "Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -coinstatsindex. WARNING: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, greater than 550 = automatically prune blocks to stay under target size in MiB).",
       "default": 0,
       "min": 0
     },
@@ -201,18 +230,23 @@
     },
     "reindex": {
       "name": "Reindex",
-      "description": "Rebuild chain state and block index from the blk*.dat files on disk. WARNING: very slow!",
+      "description": "Rebuild chain state and block index from the blk*.dat files on disk. If an assumeutxo snapshot was loaded, its chainstate will be wiped as well. The snapshot can then be reloaded via RPC. WARNING: very slow!",
       "default": 0
     },
     "settings": {
       "name": "Settings Data File",
-      "description": "Specify path to dynamic settings data file. Can be disabled with -nosettings. File is written at runtime and not meant to be edited by users. Relative paths will be prefixed by datadir location.",
+      "description": "Specify path to dynamic settings data file. Can be disabled with -nosettings. File is written at runtime and not meant to be edited by users (use bitcoin.conf instead for custom settings). Relative paths will be prefixed by datadir location.",
       "default": "settings.json"
     },
     "shutdownnotify": {
       "name": "Shutdown Notification",
-      "description": "Execute command immediately before beginning shutdown.",
+      "description": "Execute command immediately before beginning shutdown. The need for shutdown may be urgent, so be careful not to delay it long (if the command doesn't require interaction with the server, consider having it fork into the background).",
       "default": ""
+    },
+    "softwareexpiry": {
+      "name": "Software Expiry (Knots Exclusive)",
+      "description": "Stop working after this POSIX timestamp.",
+      "default": "1767251360"
     },
     "startupnotify": {
       "name": "Startup Notification",
@@ -235,7 +269,7 @@
     },
     "acceptstalefeeestimates": {
       "name": "Accept Stale Fee Estimates",
-      "description": "Read fee estimates even if they are over 60 hours old. Regtest only.",
+      "description": "Read fee estimates even if they are stale (regtest only) fee estimates are considered stale if they are 60 hours old.",
       "default": 0
     },
     "addrmantest": {
@@ -248,6 +282,11 @@
       "description": "Capture all P2P messages to disk.",
       "default": 0
     },
+    "checkblockindex": {
+      "name": "Check Block Index",
+      "description": "Do a consistency check for the block tree, chainstate, and other validation data structures occasionally (default: 0, regtest: 1).",
+      "default": 0
+    },
     "checkblocks": {
       "name": "Check Blocks",
       "description": "How many recent blocks to check at startup. (0 == check all blocks which is very slow!)",
@@ -256,7 +295,7 @@
     },
     "checklevel": {
       "name": "Check Block Level",
-      "description": "How thorough the block verification of -checkblocks is (0-4).",
+      "description": "How thorough the block verification of -checkblocks is: level 0 reads the blocks from disk, level 1 verifies block validity, level 2 verifies undo data, level 3 checks disconnection of tip blocks, level 4 tries to reconnect the blocks, each level includes the checks of the previous levels.",
       "default": 3,
       "min": 0,
       "max": 4
@@ -269,13 +308,13 @@
     },
     "checkmempool": {
       "name": "Check Mempool",
-      "description": "Run mempool consistency checks every <n> transactions.",
+      "description": "Run mempool consistency checks every <n> transactions. Use 0 to disable (default: 0, regtest: 1).",
       "default": 0,
       "min": 0
     },
     "checkpoints": {
       "name": "Enable Checkpoints",
-      "description": "Disable expensive verification for known chain history.",
+      "description": "Enable rejection of any forks from the known historical chain until block 843264.",
       "default": 1
     },
     "dbcrashratio": {
@@ -325,7 +364,7 @@
     },
     "limitdescendantsize": {
       "name": "Limit Transaction Descendant Size",
-      "description": "Do not accept transactions whose size with all in-mempool descendants exceeds <n> kilobytes.",
+      "description": "Do not accept transactions if any ancestor would have more than <n> kilobytes of in-mempool descendants.",
       "default": 101,
       "min": 0
     },
@@ -335,114 +374,148 @@
         "0": "Disable debug logging.",
         "1": "Enable debug logging for all categories.",
         "addrman": "Enable address manager logging.",
-        "alert": "Enable alert logging",
         "bench": "Enable benchmark logging",
+        "blockstorage": "Enable block storage logging",
         "cmpctblock": "Enable compact block logging",
         "coindb": "Enable coin database logging",
-        "walletdb": "Enable wallet database logging",
+        "estimatefee": "Enable fee estimation logging",
         "http": "Enable HTTP logging",
+        "i2p": "Enable I2P logging",
+        "ipc": "Enable IPC logging",
         "leveldb": "Enable leveldb logging",
         "libevent": "Enable libevent logging",
-        "lock": "Enable lock logging",
         "mempool": "Enable mempool logging",
         "mempoolrej": "Enable mempool rejection logging",
         "net": "Enable network logging",
         "proxy": "Enable proxy logging",
         "prune": "Enable pruning logging",
+        "qt": "Enable QT logging",
         "rand": "Enable randomness logging",
         "reindex": "Enable reindexing logging",
         "rpc": "Enable RPC logging",
+        "scan": "Enable scan logging",
         "selectcoins": "Enable coin selection logging",
         "tor": "Enable Tor logging",
+        "txpackages": "Enable transaction packages logging",
+        "txreconciliation": "Enable transaction reconciliation logging",
+        "util": "Enable utility logging",
+        "validation": "Enable transaction validation logging",
+        "walletdb": "Enable wallet database logging",
         "zmq": "Enable ZeroMQ logging"
       },
-      "default": "0",
       "values": [
         "Disable [0]",
         "Enable All [1]",
         "Address Manager [addrman]",
-        "Alerts [alert]",
         "Benchmarking [bench]",
+        "Block Storage [blockstorage]",
         "Compact Blocks [cmpctblock]",
         "CoinDB [coindb]",
+        "Fee Estimation [estimatefee]",
         "Database [db]",
         "HTTP [http]",
+        "I2P [i2p]",
+        "IPC [ipc]",
         "LevelDB [leveldb]",
         "LibEvent [libevent]",
-        "Locking [lock]",
         "Mempool [mempool]",
         "Mempool Rejection [mempoolrej]",
         "Networking [net]",
         "Proxy [proxy]",
         "Pruning [prune]",
+        "QT [qt]",
         "Random [rand]",
         "Reinding [reindex]",
         "RPC [rpc]",
+        "Scan [scan]",
         "Coin Selection [selectcoins]",
         "Tor [tor]",
+        "TX Packages [txpackages]",
+        "TX Reconciliation [txreconciliation]",
+        "Utility [util]",
+        "TX Validation [validation]",
+        "Wallet DB [walletdb]",
         "ZeroMQ [zmq]"
-      ]
+      ],
+      "default": "0"
     },
     "debugexclude": {
       "name": "Exclude Debug Logging",
       "description": {
         "0": "Don't exclude any logging.",
         "addrman": "Exclude address manager logging.",
-        "alert": "Exclude alert logging",
         "bench": "Exclude benchmark logging",
+        "blockstorage": "Exclude block storage logging",
         "cmpctblock": "Exclude compact block logging",
         "coindb": "Exclude coin database logging",
-        "db": "Exclude database logging",
+        "estimatefee": "Exclude fee estimation logging",
         "http": "Exclude HTTP logging",
+        "i2p": "Exclude I2P logging",
+        "ipc": "Exclude IPC logging",
         "leveldb": "Exclude leveldb logging",
         "libevent": "Exclude libevent logging",
-        "lock": "Exclude lock logging",
         "mempool": "Exclude mempool logging",
         "mempoolrej": "Exclude mempool rejection logging",
         "net": "Exclude network logging",
         "proxy": "Exclude proxy logging",
         "prune": "Exclude pruning logging",
+        "qt": "Exclude QT logging",
         "rand": "Exclude randomness logging",
         "reindex": "Exclude reindexing logging",
         "rpc": "Exclude RPC logging",
+        "scan": "Exclude scan logging",
         "selectcoins": "Exclude coin selection logging",
         "tor": "Exclude Tor logging",
+        "txpackages": "Exclude transaction packages logging",
+        "txreconciliation": "Exclude transaction reconciliation logging",
+        "util": "Exclude utility logging",
+        "validation": "Exclude transaction validation logging",
+        "walletdb": "Exclude wallet database logging",
         "zmq": "Exclude ZeroMQ logging"
       },
-      "default": "0",
       "values": [
         "No Exclusions [0]",
         "Address Manager [addrman]",
-        "Alerts [alert]",
         "Benchmarking [bench]",
+        "Block Storage [blockstorage]",
         "Compact Blocks [cmpctblock]",
         "CoinDB [coindb]",
+        "Fee Estimation [estimatefee]",
         "Database [db]",
         "HTTP [http]",
+        "I2P [i2p]",
+        "IPC [ipc]",
         "LevelDB [leveldb]",
         "LibEvent [libevent]",
-        "Locking [lock]",
         "Mempool [mempool]",
         "Mempool Rejection [mempoolrej]",
         "Networking [net]",
         "Proxy [proxy]",
         "Pruning [prune]",
+        "QT [qt]",
         "Random [rand]",
         "Reinding [reindex]",
         "RPC [rpc]",
+        "Scan [scan]",
         "Coin Selection [selectcoins]",
         "Tor [tor]",
+        "TX Packages [txpackages]",
+        "TX Reconciliation [txreconciliation]",
+        "Utility [util]",
+        "TX Validation [validation]",
+        "Wallet DB [walletdb]",
         "ZeroMQ [zmq]"
-      ]
+      ],
+      "default": "0"
     },
     "debuglogfile": {
       "name": "Debug Log File",
-      "description": "Location of the debug log",
+      "description": "Specify location of debug log file. Relative paths will be prefixed by a net-specific datadir location. Pass -nodebuglogfile to disable writing the log to a file.",
       "default": "$BASE/debug.log"
     },
     "logips": {
       "name": "Log IP Addresses",
-      "description": "Log IP Addresses in debug output.",
+      "description": "Include IP addresses in debug output.",
       "default": 0
     },
     "loglevel": {
@@ -462,12 +535,12 @@
     },
     "logtimestamps": {
       "name": "Log Timestamps",
-      "description": "Log timestamps in debug output.",
+      "description": "Prepend debug output with timestamp.",
       "default": 1
     },
     "logtimemicros": {
       "name": "Log Precise Timestamps",
-      "description": "Log timestamps with microsecond precision.",
+      "description": "Add microsecond precision to debug timestamps.",
       "default": 0
     },
     "mocktime": {
@@ -477,7 +550,7 @@
     },
     "maxsigcachesize": {
       "name": "Max Signature Cache Size",
-      "description": "Limit size of signature cache to <n> MiB.",
+      "description": "Limit sum of signature cache and script execution cache sizes to <n> MiB.",
       "default": 32,
       "min": 1
     },
@@ -495,12 +568,12 @@
     },
     "printtoconsole": {
       "name": "Output to Console",
-      "description": "Send trace/debug info to console instead of debug.log.",
+      "description": "Send trace/debug info to console (default: 1 when no -daemon. To disable logging to file, set -nodebuglogfile)",
       "default": 0
     },
     "printpriority": {
       "name": "Print Priority",
-      "description": "Log transaction fee per kB when mining blocks.",
+      "description": "Log transaction priority and fee rate in BTC/kvB when mining blocks.",
       "default": 0
     },
     "promiscuousmempoolflags": {
@@ -510,7 +583,7 @@
     },
     "shrinkdebugfile": {
       "name": "Shrink Debug Log File",
-      "description": "Shrink debug.log file on client startup.",
+      "description": "Shrink debug.log file on client startup (default: 1 when no -debug).",
       "default": 1
     }
   },
@@ -519,47 +592,13 @@
     "description": "Fine tune settings for what transactions your node will relay to peers.",
     "acceptnonstdtxn": {
       "name": "Accept Non-Standard Transactions",
-      "description": "Relay and mine non-standard transactions (testnet/regtest only.)",
+      "description": "Relay and mine non-standard transactions.",
       "default": 0
     },
-    "incrementalrelayfee": {
-      "name": "Incremental Relay Fee",
-      "description": "Fee rate (in BTC/kB) used to define cost of relay, used for mempool limiting and BIP 125 replacement.",
-      "default": 0.00001,
-      "min": 0
-    },
-    "dustrelayfee": {
-      "name": "Dust Relay Fee",
-      "description": "Fee rate (in BTC/kB) used to defined dust, the value of an output such that it will cost about 1/3 of its value in fees at this fee rate to spend it.",
-      "default": 0.00001,
-      "min": 0
-    },
-    "bytespersigop": {
-      "name": "Bytes Per Signature Operation",
-      "description": "Equivalent bytes per sigop in transactions for relay and mining.",
-      "default": 20,
-      "min": 1
-    },
-    "datacarrier": {
-      "name": "Relay OP_RETURN Transactions",
-      "description": "Relay transactions with OP_RETURN outputs.",
-      "default": 1
-    },
-    "datacarriersize": {
-      "name": "Max OP_RETURN Size",
-      "description": "Maximum size of data in OP_RETURN outputs we relay and mine.",
-      "default": 83,
-      "min": 1
-    },
-    "mempoolfullrbf": {
-      "name": "Mempool Full RBF",
-      "description": "Accept transaction replace-by-fee without requiring replaceability signaling.",
+    "acceptnonstddatacarrier": {
+      "name": "Accept Non-Standard Datacarrier Transactions (Knots Exclusive)",
+      "description": "Relay and mine non-OP_RETURN datacarrier injection.",
       "default": 0
-    },
-    "permitbaremultisig": {
-      "name": "Permit Bare Multisig",
-      "description": "Relay non-P2SH multisig transactions.",
-      "default": 1
     },
     "minrelaytxfee": {
       "name": "Min Transaction Relay Fee",
@@ -567,10 +606,127 @@
       "default": 0.00001,
       "min": 0
     },
+    "incrementalrelayfee": {
+      "name": "Incremental Relay Fee",
+      "description": "Fee rate (in BTC/kB) used to define cost of relay, used for mempool limiting and replacement policy.",
+      "default": 0.00001,
+      "min": 0
+    },
+    "dustrelayfee": {
+      "name": "Dust Relay Fee",
+      "description": "Fee rate (in BTC/kB) used to defined dust, the value of an output such that it will cost about 1/3 of its value in fees at this fee rate to spend it.",
+      "default": 0.00003,
+      "min": 0
+    },
+    "dustdynamic": {
+      "name": "Dynamic Dust Relay Fee (Knots Exclusive)",
+      "description": "Automatically raise dustrelayfee based on either the expected fee to be mined within <blocks> blocks, or to be within the best <kvB> kvB of this node's mempool. If unspecified, multiplier is 3000. Specify in format: off|[<multiplier>*]target:<blocks>|[<multiplier>*]mempool:<kvB>",
+      "default": "off"
+    },
+    "bytespersigop": {
+      "name": "Bytes Per Signature Operation",
+      "description": "Equivalent bytes per sigop in transactions for relay and mining.",
+      "default": 20,
+      "min": 1
+    },
+    "bytespersigopstrict": {
+      "name": "Bytes Per Signature Operation Strict (Knots Exclusive)",
+      "description": "Minimum bytes per sigop in transactions we relay and mine.",
+      "default": 20,
+      "min": 1
+    },
+    "datacarrier": {
+      "name": "Data Carrier",
+      "description": "Relay and mine data carrier transactions.",
+      "default": 1
+    },
+    "datacarriersize": {
+      "name": "Data Carrier Size",
+      "description": "Maximum size of data in data carrier transactions we relay and mine in bytes.",
+      "default": 42,
+      "min": 0
+    },
+    "datacarriercost": {
+      "name": "Data Carrier Cost (Knots Exclusive)",
+      "description": "Treat extra data in transactions as at least N vbytes per actual byte.",
+      "default": 1
+    },
+    "datacarrierfullcount": {
+      "name": "Data Carrier Full Count (Knots Exclusive)",
+      "description": "Apply datacarriersize limit to all known datacarrier methods.",
+      "default": 1
+    },
+    "permitbaremultisig": {
+      "name": "Permit Bare Multisig",
+      "description": "Relay non-P2SH multisig transactions.",
+      "default": 0
+    },
+    "permitbarepubkey": {
+      "name": "Permit Bare Pubkey (Knots Exclusive)",
+      "description": "Relay legacy pubkey outputs.",
+      "default": 0
+    },
+    "rejectparasites": {
+      "name": "Reject Parasites (Knots Exclusive)",
+      "description": "Refuse to relay or mine parasitic overlay protocols.",
+      "default": 1
+    },
+    "rejecttokens": {
+      "name": "Reject Tokens (Knots Exclusive)",
+      "description": "Refuse to relay or mine transactions involving non-bitcoin tokens.",
+      "default": 0
+    },
+    "maxscriptsize": {
+      "name": "Maximum Script Size (Knots Exclusive)",
+      "description": "Maximum size of scripts we relay and mine in bytes.",
+      "default": 1650,
+      "min": 0
+    },
+    "spkreuse": {
+      "name": "Script And Public Key Reuse (Knots Exclusive)",
+      "description": {
+        "allow": "Accept transactions reusing addresses or other pubkey scripts.",
+        "conflict": "Reject transactions reusing addresses or other pubkey scripts."
+      },
+      "values": [
+        "Allow [allow]",
+        "Disallow [conflict]"
+      ],
+      "default": "allow"
+    },
+    "mempoolfullrbf": {
+      "name": "Mempool Full RBF",
+      "description": "Accept transaction replace-by-fee without requiring replaceability signaling.",
+      "default": 1
+    },
+    "mempoolreplacement": {
+      "name": "Mempool Replacement (Knots Exclusive)",
+      "description": {
+        "0": "Disable RBF entirely.",
+        "fee,optin": "Honor RBF opt-out signal.",
+        "fee,-optin": "Always RBF aka full RBF."
+      },
+      "values": [
+        "Disable [0]",
+        "Honor opt-out [fee,optin]",
+        "Full RBF [fee,-optin]"
+      ],
+      "default": "fee,-optin"
+    },
     "whitelistrelay": {
       "name": "Whitelist Relay",
-      "description": "Accept relayed transactions received from whitelisted peers even when not relaying transactions.",
+      "description": "Add 'relay' permission to whitelisted peers with default permissions. This will accept relayed transactions even when not relaying transactions.",
       "default": 1
+    },
+    "whitelistforcerelay": {
+      "name": "Whitelist Force Relay",
+      "description": "Add 'forcerelay' permission to whitelisted peers with default permissions. This will relay transactions even if the transactions were already in the mempool.",
+      "default": 0
+    },
+    "corepolicy": {
+      "name": "Bitcoin Core Policy (Knots Exclusive)",
+      "description": "Use Bitcoin Core policy defaults.",
+      "default": 0
     }
   },
   "network": {
@@ -578,7 +734,7 @@
     "description": "Options for how your node interacts with other peers on the network.",
     "addnode": {
       "name": "Connect to Peer",
-      "description": "Add a node IP address to connect to and attempt to keep the connection open. This option can be set multiple times.",
+      "description": "Add a node IP address to connect to and attempt to keep the connection open. This option can be set multiple times to add multiple nodes. Connections are limited to 8 at a time and are counted separately from the maxconnections limit.",
       "default": ""
     },
     "asmap": {
@@ -588,13 +744,13 @@
     },
     "bantime": {
       "name": "Peer Ban Time",
-      "description": "Number of seconds to keep misbehaving peers from reconnecting.",
+      "description": "Default duration (in seconds) of manually configured bans.",
       "default": 86400,
       "min": 1
     },
     "bind": {
       "name": "Bind to IP Address",
-      "description": "Bind to given address and always listen on it. (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections",
+      "description": "Bind to given address and always listen on it (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections. (default: 127.0.0.1:8334=onion, testnet: 127.0.0.1:18334=onion, signet: 127.0.0.1:38334=onion, regtest: 127.0.0.1:18445=onion.",
       "default": ""
     },
     "cjdnsreachable": {
@@ -604,13 +760,18 @@
     },
     "connect": {
       "name": "Only Connect to Peer",
-      "description": "Connect only to the specified node(s); can be set multiple times. Set to 0 to disable automatic connections.",
+      "description": "Connect only to the specified node(s); can be set multiple times. -noconnect disables automatic connections (the rules for this peer are the same as for -addnode).",
       "default": ""
     },
     "discover": {
       "name": "Discover IP Address",
       "description": "Discover own IP addresses. If disabled, should be used with -externalip or -proxy.",
       "default": 1
+    },
+    "externalip": {
+      "name": "External IP Address",
+      "description": "Specify your own public IP address.",
+      "default": ""
     },
     "dns": {
       "name": "Allow DNS Lookups",
@@ -619,13 +780,8 @@
     },
     "dnsseed": {
       "name": "Use DNS Seed",
-      "description": "Query for peer addresses via DNS lookup, if low on addresses.",
+      "description": "Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect used or -maxconnections=0).",
       "default": 1
-    },
-    "externalip": {
-      "name": "External IP Address",
-      "description": "Specify your own public IP address.",
-      "default": ""
     },
     "fixedseeds": {
       "name": "Use Fixed Seeds",
@@ -637,9 +793,14 @@
       "description": "Always query for peer addresses via DNS lookup.",
       "default": 0
     },
+    "feefilter": {
+      "name": "Fee filter (Knots Exclusive)",
+      "description": "Tell other nodes to filter invs to us by our mempool min fee.",
+      "default": 1
+    },
     "i2pacceptincoming": {
       "name": "Accept Incoming I2P Connections",
-      "description": "If set and -i2psam is also set then incoming I2P connections are accepted via the SAM proxy. If this is not set but -i2psam is set then only outgoing connections will be made to the I2P network. Ignored if -i2psam is not set. Listening for incoming I2P connections is done through the SAM proxy, not by binding to a local address and port.",
+      "description": "Whether to accept inbound I2P connections. Ignored if -i2psam is not set. Listening for incoming I2P connections is done through the SAM proxy, not by binding to a local address and port.",
       "default": 1
     },
     "i2psam": {
@@ -648,7 +809,7 @@
     },
     "listen": {
       "name": "Listen for Incoming Connections",
-      "description": "Accept incoming connections from peers.",
+      "description": "Accept connections from outside (default: 1 if no -proxy, -connect or -maxconnection=0)",
       "default": 1
     },
     "listenonion": {
@@ -658,7 +819,7 @@
     },
     "maxconnections": {
       "name": "Max Peer Connections",
-      "description": "Maintain at most N connections to peers.",
+      "description": "Maintain at most N connections to peers. This limit does not apply to connections manually added via -addnode or the addnode RPC, which have a separate limit of 8.",
       "default": 125,
       "min": 0,
       "max": 250
@@ -677,7 +838,7 @@
     },
     "maxtimeadjustment": {
       "name": "Max Time Adjustment",
-      "description": "Maximum allowed median peer time offset adjustment in seconds. Local perspective of time may be influenced by peers forward or backward by this amount.",
+      "description": "Maximum allowed median peer time offset adjustment in seconds. Local perspective of time may be influenced by outbound peers forward or backward by this amount.",
       "default": 4200,
       "min": 0
     },
@@ -693,7 +854,7 @@
     },
     "onion": {
       "name": "Tor Proxy",
-      "description": "Use separate SOCKS5 proxy <ip:port> to reach peers via Tor hidden services.",
+      "description": "Use separate SOCKS5 proxy <ip:port> to reach peers via Tor hidden services. Set -noonion to disable.",
       "default": ""
     },
     "onlynet": {
@@ -701,21 +862,25 @@
       "description": {
         "any": "Use every available network",
         "ipv4": "Only connect to peers via IPV4",
-        "ipv6": "Only connect to peers via IPV6.",
-        "onion": "Only connect to peers via Tor."
+        "ipv6": "Only connect to peers via IPV6",
+        "onion": "Only connect to peers via Tor",
+        "i2p": "Only connect to peers via I2P",
+        "cjdns": "Only connect to peers via CJDNS"
       },
-      "default": "any",
       "values": [
         "Any [any]",
         "IPV4 [ipv4]",
         "IPV6 [ipv6]",
-        "Tor [onion]"
-      ]
+        "Tor [onion]",
+        "I2P [i2p]",
+        "CJDNS [cjdns]"
+      ],
+      "default": "any"
     },
     "v2transport": {
-      "name": "Support v2 Transport",
-      "description": "Experimental support for the v2 transport protocol defined in BIP324.",
-      "default": 0
+      "name": "v2 Transport",
+      "description": "Support v2 transport.",
+      "default": 1
     },
     "peerblockfilters": {
       "name": "Permit Peer Block Filters",
@@ -725,23 +890,23 @@
     "peerbloomfilters": {
       "name": "Permit Peer Bloom Filters",
       "description": "Support filtering of blocks and transactions with bloom filters.",
-      "default": 0
+      "default": 1
     },
     "peertimeout": {
       "name": "Peer Timeout",
-      "description": "Specify p2p connection timeout in seconds. The amount of time a peer may be inactive before the connection to it is dropped.",
+      "description": "Specify p2p connection timeout in seconds. After connecting to a peer, wait this amount of time before considering disconnection based on inactivity.",
       "default": 60,
       "min": 1
     },
     "port": {
       "name": "Listen Port",
-      "description": "Listen for incoming connections on non-default port.",
+      "description": "Listen for incoming connections on non-default port. Nodes not using the default ports (default: 8333, testnet: 18333, signet: 38333, regtest: 18444) are unlikely to get incoming connections. Not relevant for I2P.",
       "default": ""
     },
     "proxy": {
       "name": "Proxy Connection",
-      "description": "Connect through <ip:port> SOCKS5 proxy.",
-      "default": ""
+      "description": "Connect through <ip:port> SOCKS5 proxy, set -noproxy to disable.",
+      "default": "noproxy"
     },
     "proxyrandomize": {
       "name": "Randomize Proxy",
@@ -750,19 +915,24 @@
     },
     "seednode": {
       "name": "Seed Node",
-      "description": "Connect to a node (IP address) to retrieve peer addresses, then disconnect.",
+      "description": "Connect to a node (IP address) to retrieve peer addresses, then disconnect. This option can be specified multiple times to connect to multiple nodes.",
       "default": ""
     },
     "timeout": {
       "name": "Connection Timeout",
-      "description": "Initial peer connection timeout in milliseconds.",
+      "description": "Initial peer connection timeout in milliseconds. If an initial attempt to connect is unsuccessful after this amount of time, drop it.",
       "default": 5000,
       "min": 1
     },
     "torcontrol": {
       "name": "Tor Control",
-      "description": "Tor control <ip:port> to use if onion listening enabled.",
+      "description": "Tor control <ip:port> to use if onion listening enabled. If no port is specified, the default port of 9051 will be used.",
       "default": "127.0.0.1:9051"
+    },
+    "torexecute": {
+      "name": "Tor Control (Knots Exclusive)",
+      "description": "Tor command to use if not already running.",
+      "default": "tor"
     },
     "torpassword": {
       "name": "Tor Control Password",
@@ -774,6 +944,11 @@
       "description": "Enable transaction reconciliations per BIP 330.",
       "default": 0
     },
+    "uaappend": {
+      "name": "User Agent Append (Knots Exclusive)",
+      "description": "Append literal to the user agent string (should only be used for software embedding).",
+      "default": ""
+    },
     "upnp": {
       "name": "Universal Plug 'n Play",
       "description": "Use UPnP to map the listening port.",
@@ -781,33 +956,44 @@
     },
     "whitebind": {
       "name": "Whitelist Bound IP Address",
-      "description": "Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6. Use [permissions]address for permissions. Allowed permissions are bloomfilter, noban, forcerelay, relay, and mempool. Specify multiple permissions separated by commas (default: noban,mempool,relay). Can be specified multiple times.",
+      "description": "Bind to the given address and add permission flags <[permissions@]addr> to the peers connecting to it. Use [host]:port notation for IPv6. Allowed permissions: bloomfilter (allow requesting BIP37 filtered blocks and transactions), blockfilters (serve compact block filters to peers per BIP157), noban (do not ban for misbehavior; implies download), forcerelay (relay transactions that are already in the mempool; implies relay), relay (relay even in -blocksonly mode, and unlimited transaction announcements), mempool (allow requesting BIP35 mempool contents), download (allow getheaders during IBD, no disconnect after maxuploadtarget limit), addr (responses to GETADDR avoid hitting the cache and contain random records with the most up-to-date info), forceinbound (when connections are full, attempt to evict a random unprotected inbound peer to open a slot; implies noban). Specify multiple permissions separated by commas (default: download,noban,mempool,relay). Can be specified multiple times.",
       "default": ""
     },
     "whitelist": {
       "name": "Whitelist Peer",
-      "description": "Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Use [permissions]address for permissions. Uses same permissions as Whitelist Bound IP Address. Can be specified multiple times. Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool. Useful for a gateway node.",
+      "description": "Add permission flags <[permissions@]IP address or network> to the peers using the given IP address (e.g. 1.2.3.4) or CIDR-notated network (e.g. 1.2.3.0/24). Uses the same permissions as -whitebind. Additional flags \"in\" and \"out\" control whether permissions apply to incoming connections and/or outgoing (default: incoming only). Can be specified multiple times.",
       "default": ""
     },
     "maxuploadtarget": {
       "name": "Max Upload Target",
-      "description": "Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit.",
-      "default": 0,
-      "min": 0
+      "description": "Tries to keep outbound traffic under the given target (in MiB per 24h). Limit does not apply to peers with 'download' permission or blocks created within past week. 0 = no limit (default: 0M). Optional suffix units [k|K|m|M|g|G|t|T] (default: M). Lowercase is 1000 base while uppercase is 1024 base.",
+      "default": "0M"
     }
   },
   "mining": {
     "section": "Mining",
     "description": "Configure attributes of blocks that can be mined by this node.",
+    "blockmaxsize": {
+      "name": "Max Block Size (Knots Exclusive)",
+      "description": "Set maximum block size in bytes.",
+      "default": 3000000,
+      "min": 0
+    },
     "blockmaxweight": {
       "name": "Max Block Weight",
       "description": "Set maximum BIP141 block weight.",
-      "default": 3000000
+      "default": 1200000
     },
     "blockmintxfee": {
       "name": "Block Min Transaction Fee",
       "description": "Set lowest fee rate (in BTC/kB) for transactions to be included in block creation.",
       "default": 0.00001,
+      "min": 0
+    },
+    "blockprioritysize": {
+      "name": "Block Priority Size (Knots Exclusive)",
+      "description": "Set maximum size of high-priority/low-fee transactions in bytes.",
+      "default": 100000,
       "min": 0
     },
     "blockversion": {
@@ -827,13 +1013,13 @@
         "signrawtransaction": "Enable Sign Raw Transaction RPC",
         "validateaddress": "Enable Validate Address RPC"
       },
-      "default": [],
       "values": [
         "Accounts [accounts]",
         "Add Witness Address [addwitnessaddress]",
         "Sign Raw Transaction [signrawtransaction]",
         "Validate Address [validateaddress]"
-      ]
+      ],
+      "default": []
     },
     "server": {
       "name": "Enable RPC Server",
@@ -847,7 +1033,7 @@
     },
     "rpcbind": {
       "name": "Bind RPC Address",
-      "description": "Bind to given address to listen for JSON-RPC connections. This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost)",
+      "description": "Bind to given address to listen for JSON-RPC connections. Do not expose the RPC server to untrusted networks such as the public internet! This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times. (default: 127.0.0.1 and ::1 i.e., localhost)",
       "default": ""
     },
     "rpcdoccheck": {
@@ -857,32 +1043,52 @@
     },
     "rpccookiefile": {
       "name": "RPC Cookie Directory",
-      "description": "Location of the RPC auth cookie",
-      "default": ".cookie"
+      "description": "Location of the RPC auth cookie. Relative paths will be prefixed by a net-specific datadir location.",
+      "default": "$BASE"
+    },
+    "rpccookieperms": {
+      "name": "RPC Cookie Permissions (Knots Exclusive)",
+      "description": "Set the permissions on the RPC auth cookie file to the specified octal value.",
+      "default": "600"
     },
     "rpcauth": {
       "name": "RPC Auth",
-      "description": "Username and hashed password for JSON-RPC connections. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. RPC clients connect using rpcuser=<USERNAME>/rpcpassword=<PASSWORD> arguments. You can generate this value at https://bitcoin-knots-config-generator.netlify.app/. This option can be specified multiple times.",
+      "description": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in share/rpcauth. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. You can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator/. This option can be specified multiple times.",
+      "default": ""
+    },
+    "rpcuser": {
+      "name": "RPC User",
+      "description": "Username for JSON-RPC connections.",
+      "default": ""
+    },
+    "rpcpassword": {
+      "name": "RPC Password",
+      "description": "Password for JSON-RPC connections.",
+      "default": ""
+    },
+    "rpcauthfile": {
+      "name": "RPC Auth File (Knots Exclusive)",
+      "description": "A file with a single line with the same format as rpcauth. This option can be specified multiple times.",
       "default": ""
     },
     "rpcport": {
       "name": "RPC Port",
-      "description": "Listen for JSON-RPC connections on this port",
+      "description": "Listen for JSON-RPC connections on this port (default: 8332, testnet: 18332, signet: 38332, regtest: 18443).",
       "default": 8332
     },
     "rpcallowip": {
       "name": "RPC Allow IP Address",
-      "description": "Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times.",
+      "description": "Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) a network/CIDR (e.g. 1.2.3.4/24), all ipv4 (0.0.0.0/0), or all ipv6 (::/0).. This option can be specified multiple times.",
       "default": ""
     },
     "rpcwhitelistdefault": {
       "name": "RPC Whitelist Default",
-      "description": "Sets default behavior for rpc whitelisting. Unless rpcwhitelistdefault is set to 0, if any -rpcwhitelist is set, the rpc server acts as if all rpc users are subject to empty-unless-otherwise-specified whitelists. If rpcwhitelistdefault is set to 1 and no -rpcwhitelist is set, rpc server acts as if all rpc users are subject to empty whitelists.",
+      "description": "Sets default behavior for rpc whitelisting. Unless set to 0, if any -rpcwhitelist is set, the rpc server acts as if all rpc users are subject to empty-unless-otherwise-specified whitelists. If set to 1 and no -rpcwhitelist is set, rpc server acts as if all rpc users are subject to empty whitelists.",
       "default": 0
     },
     "rpcwhitelist": {
       "name": "RPC Whitelist",
-      "description": "Set a whitelist to filter incoming RPC calls for a specific user. The field <whitelist> comes in the format: <USERNAME>:<rpc 1>,<rpc 2>,...,<rpc n>. If multiple whitelists are set for a given user, they are set-intersected.",
+      "description": "Set a whitelist to filter incoming RPC calls for a specific user. The field <whitelist> comes in the format: <USERNAME>:<rpc 1>,<rpc 2>,...,<rpc n>. If multiple whitelists are set for a given user, they are set-intersected. See -rpcwhitelistdefault documentation for information on default whitelist behavior.",
       "default": ""
     },
     "rpcthreads": {
@@ -903,11 +1109,11 @@
         "0": "Return raw transaction or block hex with non-SegWit serialization.",
         "1": "Return raw transaction or block hex with SegWit serialization."
       },
-      "default": "1",
       "values": [
-        "Non-SegWit [0]",
+        "Non-SegWit (DEPRECATED) [0]",
         "SegWit [1]"
-      ]
+      ],
+      "default": "1"
     },
     "rpcservertimeout": {
       "name": "RPC Timeout",
@@ -924,18 +1130,20 @@
       "description": {
         "legacy": "Legacy",
         "p2sh-segwit": "P2SH Wrapped SegWit",
-        "bech32": "Bech32"
+        "bech32": "Bech32",
+        "bech32m": "Bech32 modified"
       },
-      "default": "p2sh-segwit",
       "values": [
         "Legacy [legacy]",
         "P2SH Wrapped SegWit [p2sh-segwit]",
-        "Bech32 [bech32]"
-      ]
+        "Bech32 [bech32]",
+        "Bech32m [bech32m]"
+      ],
+      "default": "bech32"
     },
     "avoidpartialspends": {
       "name": "Avoid Partial Spends",
-      "description": "Group outputs by address, selecting all or none, instead of selecting on a per-output basis. Improves privacy at expense of higher transaction fees.",
+      "description": "Group outputs by address, selecting many (possibly all) or none, instead of selecting on a per-output basis. Privacy is improved as addresses are mostly swept with fewer transactions and outputs are aggregated in clean change addresses. It may result in higher fees due to less optimal coin selection caused by this added limitation and possibly a larger-than-necessary number of inputs being used. Always enabled for wallets with \"avoid_reuse\" enabled, otherwise.",
       "default": 0
     },
     "changetype": {
@@ -943,14 +1151,16 @@
       "description": {
         "legacy": "Legacy",
         "p2sh-segwit": "P2SH Wrapped SegWit",
-        "bech32": "Bech32"
+        "bech32": "Bech32",
+        "bech32m": "Bech32 modified"
       },
-      "default": "p2sh-segwit",
       "values": [
         "Legacy [legacy]",
         "P2SH Wrapped SegWit [p2sh-segwit]",
-        "Bech32 [bech32]"
-      ]
+        "Bech32 [bech32]",
+        "Bech32m [bech32m]"
+      ],
+      "default": "bech32"
     },
     "consolidatefeerate": {
       "name": "Consolidate Fee Rate",
@@ -965,31 +1175,30 @@
     },
     "keypool": {
       "name": "Key Pool Size",
-      "description": "Set key pool size to <n>. Recommended to use a large number for high volume non-HD wallets.",
+      "description": "Set key pool size to <n>. Warning: Smaller sizes may increase the risk of losing funds when restoring from an old backup, if none of the addresses in the original keypool have been used.",
       "default": 1000,
       "min": 10
     },
     "fallbackfee": {
       "name": "Fallback Transaction Fee",
-      "description": "A fee rate (in BTC/kB) that will be used when fee estimation has insufficient data",
-      "default": 0.0002,
-      "min": 0
+      "description": "A fee rate (in BTC/kB) that will be used when fee estimation has insufficient data. 0 to entirely disable the fallbackfee feature.",
+      "default": 0.00
     },
     "discardfee": {
       "name": "Discard Change Fee",
-      "description": "The fee rate (in BTC/kB) that indicates your tolerance for discarding change by adding it to the fee",
+      "description": "The fee rate (in BTC/kB) that indicates your tolerance for discarding change by adding it to the fee.",
       "default": 0.0001,
       "min": 0
     },
     "maxapsfee": {
       "name": "Max Avoid Partial Spend Fee",
-      "description": "Spend up to this amount in additional (absolute) fees (in BTC) if it allows the use of partial spend avoidance (default: 0.00)",
+      "description": "Spend up to this amount in additional (absolute) fees (in BTC) if it allows the use of partial spend avoidance.",
       "default": 0.00,
       "min": 0
     },
     "mintxfee": {
       "name": "Min Transaction Fee",
-      "description": "Fee rates (in BTC/kB) smaller than this are considered zero fee for transaction creation",
+      "description": "Fee rates (in BTC/kB) smaller than this are considered zero fee for transaction creation.",
       "default": 0.00001,
       "min": 0
     },
@@ -1014,39 +1223,43 @@
     },
     "txconfirmtarget": {
       "name": "Transaction Fee Confirmation Target",
-      "description": "If paytxfee is not set, include enough fee so that transactions should confirm within <n> blocks",
-      "default": 6,
-      "min": 2,
-      "max": 25
+      "description": "If paytxfee is not set, include enough fee so that transactions begin confirmation on average within <n> blocks",
+      "default": 144,
+      "min": 2
     },
     "unsafesqlitesync": {
       "name": "Unsafe SQL Lite Sync",
-      "description": "Disable waiting for the database to sync to disk. This is unsafe and can cause data loss and corruption. This option is only used by tests to improve their performance.",
+      "description": "Set SQLite synchronous=OFF to disable waiting for the database to sync to disk. This is unsafe and can cause data loss and corruption. This option is only used by tests to improve their performance.",
       "default": 0
     },
     "walletrbf": {
       "name": "Enable Replace By Fee Transactions",
-      "description": "Send transactions with full-RBF opt-in enabled.",
+      "description": "Send transactions with full-RBF opt-in enabled (RPC only).",
       "default": 1
     },
     "wallet": {
       "name": "Wallet Path",
-      "description": "Specify wallet database path. Can be specified multiple times to load multiple wallets. Path is interpreted relative to <walletdir> if it is not absolute and will be created if it does not exist.",
+      "description": "Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. Path is to a directory containing wallet data and log files. If the path is not absolute, it is interpreted relative to <walletdir>. This only loads existing wallets and does not create new ones. For backwards compatibility this also accepts names of existing top-level data files in <walletdir>.",
       "default": ""
     },
     "walletdir": {
       "name": "Wallet Data Storage Location",
-      "description": "Specify a non-default location to store wallet data.",
+      "description": "Specify directory to hold wallets.",
       "default": "$BASE/wallets"
     },
+    "walletimplicitsegwit": {
+      "name": "Wallet Implicit Segwit (Knots Exclusive)",
+      "description": "Support segwit when restoring wallet backups and importing keys.",
+      "default": 0
+    },
     "walletbroadcast": {
-      "name": "Broadcast Transactions",
-      "description": "Broadcast transactions created by the wallet.",
+      "name": "Wallet Transaction Broadcast",
+      "description": "Make the wallet broadcast transactions.",
       "default": 1
     },
     "walletnotify": {
       "name": "Wallet Notification",
-      "description": "Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)",
+      "description": "Execute command when a wallet transaction changes. %s in cmd is replaced by TxID, %w is replaced by wallet name, %b is replaced by the hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included) and %h is replaced by the block height (-1 if not included). %w should NOT be quoted because this would break shell escaping used to invoke the command.",
       "default": ""
     },
     "dblogsize": {
@@ -1088,6 +1301,11 @@
       "description": "Enable publishing of transaction hashes to <address>.",
       "default": ""
     },
+    "zmqpubhashwallettx": {
+      "name": "Publish Wallet Transaction Hashes (Knots Exclusive)",
+      "description": "Enable publishing of wallet transaction hashes to <address>.",
+      "default": ""
+    },
     "zmqpubrawblock": {
       "name": "Publish Raw Blocks",
       "description": "Enable publishing of raw block hex to <address>.",
@@ -1096,6 +1314,16 @@
     "zmqpubrawtx": {
       "name": "Publish Raw Transactions",
       "description": "Enable publishing of raw transaction hex to <address>.",
+      "default": ""
+    },
+    "zmqpubrawwallettx": {
+      "name": "Publish Raw Wallet Transaction (Knots Exclusive)",
+      "description": "Enable publishing of raw wallet transaction hex to <address>.",
+      "default": ""
+    },
+    "zmqpubsequence": {
+      "name": "Publish Hash Block and Transaction Sequence",
+      "description": "Enable publish hash block and tx sequence in <address>.",
       "default": ""
     },
     "zmqpubhashblockhwm": {
@@ -1108,6 +1336,11 @@
       "description": "Set publish hash transaction outbound message high water mark.",
       "default": 1000
     },
+    "zmqpubhashwallettxhwm": {
+      "name": "Publish Wallet Transaction Hashes High Water Mark (Knots Exclusive)",
+      "description": "Set publish hash wallet transaction outbound message high water mark.",
+      "default": 1000
+    },
     "zmqpubrawblockhwm": {
       "name": "Publish Raw Blocks High Water Mark",
       "description": "Set publish raw block outbound message high water mark.",
@@ -1118,15 +1351,29 @@
       "description": "Set publish raw transaction outbound message high water mark.",
       "default": 1000
     },
-    "zmqpubsequence": {
-      "name": "Publish Hash Block and Transaction Sequence",
-      "description": "Enable publish hash block and tx sequence in <address>.",
-      "default": ""
+    "zmqpubrawwallettxhwm": {
+      "name": "Publish Raw Wallet Transactions High Water Mark (Knots Exclusive)",
+      "description": "Set publish raw wallet transaction outbound message high water mark.",
+      "default": 1000
     },
     "zmqpubsequencehwm": {
       "name": "Publish Hash Sequence Message High Water Mark",
       "description": "Set publish hash sequence message high water mark.",
       "default": 1000
+    }
+  },
+  "stats": {
+    "section": "Statistics (Knots Exclusive)",
+    "description": "Options for collecting statistics.",
+    "statsenable": {
+      "name": "Enable statistics (Knots Exclusive)",
+      "description": "Enable statistics.",
+      "default": 0
+    },
+    "statsmaxmemorytarget": {
+      "name": "Statistics Maximum Memory Target (Knots Exclusive)",
+      "description": "Set the memory limit target for statistics in bytes.",
+      "default": 10485760
     }
   }
 }
