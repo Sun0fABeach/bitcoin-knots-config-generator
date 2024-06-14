@@ -48,6 +48,9 @@ class Editor extends Component {
           { this.path('core', 'datadir', base, platform) }
           { this.number('core', 'dbbatchsize') }
           { this.number('core', 'dbcache') }
+          { this.number('core', 'dbfilesize') }
+          { this.number('core', 'lowmem') }
+          { this.text('core', 'confrw') }
           { this.text('core', 'includeconf') }
           { this.flag('core', 'allowignoredconf') }
           { this.text('core', 'loadblock') }
@@ -64,6 +67,7 @@ class Editor extends Component {
           { this.flag('core', 'reindex') }
           { this.text('core', 'settings') }
           { this.text('core', 'shutdownnotify') }
+          { this.number('core', 'softwareexpiry') }
           { this.text('core', 'startupnotify') }
           { this.flag('core', 'txindex') }
         </Section>
@@ -72,6 +76,7 @@ class Editor extends Component {
           { this.flag('debug', 'acceptstalefeeestimates') }
           { this.flag('debug', 'addrmantest') }
           { this.flag('debug', 'capturemessages') }
+          { this.flag('debug', 'checkblockindex') }
           { this.number('debug', 'checkblocks') }
           { this.number('debug', 'checklevel') }
           { this.number('debug', 'checkaddrman') }
@@ -108,14 +113,17 @@ class Editor extends Component {
           { this.select('chain', 'chain') }
           { this.flag('chain', 'regtest') }
           { this.flag('chain', 'signet') }
+          { this.number('chain', 'signetblocktime') }
           { this.text('chain', 'signetchallenge') }
           { this.text('chain', 'signetseednode') }
           { this.flag('chain', 'testnet') }
           { this.text('chain', 'vbparams') }
         </Section>
         <Section title={data.mining.section} description={data.mining.description}>
+          { this.number('mining', 'blockmaxsize') }
           { this.number('mining', 'blockmaxweight') }
           { this.decimal('mining', 'blockmintxfee') }
+          { this.decimal('mining', 'blockprioritysize') }
           { this.text('mining', 'blockversion') }
         </Section>
         <Section title={data.network.section} description={data.network.description}>
@@ -126,11 +134,12 @@ class Editor extends Component {
           { this.flag('network', 'cjdnsreachable') }
           { this.text('network', 'connect') }
           { this.flag('network', 'discover') }
+          { this.text('network', 'externalip') }
           { this.flag('network', 'dns') }
           { this.flag('network', 'dnsseed') }
-          { this.text('network', 'externalip') }
           { this.flag('network', 'fixedseeds') }
           { this.flag('network', 'forcednsseed') }
+          { this.flag('network', 'feefilter') }
           { this.flag('network', 'i2pacceptincoming') }
           { this.text('network', 'i2psam') }
           { this.flag('network', 'listen') }
@@ -153,24 +162,39 @@ class Editor extends Component {
           { this.text('network', 'seednode') }
           { this.number('network', 'timeout') }
           { this.text('network', 'torcontrol') }
+          { this.text('network', 'torexecute') }
           { this.text('network', 'torpassword') }
           { this.flag('network', 'txreconciliation') }
+          { this.text('network', 'uaappend') }
           { this.flag('network', 'upnp') }
           { this.text('network', 'whitebind') }
           { this.text('network', 'whitelist') }
-          { this.number('network', 'maxuploadtarget') }
+          { this.text('network', 'maxuploadtarget') }
         </Section>
         <Section title={data.relay.section} description={data.relay.description}>
           { this.flag('relay', 'acceptnonstdtxn') }
+          { this.flag('relay', 'acceptnonstddatacarrier') }
+          { this.decimal('relay', 'minrelaytxfee') }
           { this.decimal('relay', 'incrementalrelayfee') }
           { this.decimal('relay', 'dustrelayfee') }
+          { this.text('relay', 'dustdynamic') }
           { this.number('relay', 'bytespersigop') }
+          { this.number('relay', 'bytespersigopstrict') }
           { this.flag('relay', 'datacarrier') }
           { this.number('relay', 'datacarriersize') }
-          { this.flag('relay', 'mempoolfullrbf') }
+          { this.flag('relay', 'datacarriercost') }
+          { this.flag('relay', 'datacarrierfullcount') }
           { this.flag('relay', 'permitbaremultisig') }
-          { this.decimal('relay', 'minrelaytxfee') }
+          { this.flag('relay', 'permitbarepubkey') }
+          { this.flag('relay', 'rejectparasites') }
+          { this.flag('relay', 'rejecttokens') }
+          { this.number('relay', 'maxscriptsize') }
+          { this.select('relay', 'spkreuse') }
+          { this.flag('relay', 'mempoolfullrbf') }
+          { this.select('relay', 'mempoolreplacement') }
           { this.flag('relay', 'whitelistrelay') }
+          { this.flag('relay', 'whitelistforcerelay') }
+          { this.flag('relay', 'corepolicy') }
         </Section>
         <Section title={data.rpc.section} description={data.rpc.description}>
           { this.multiselect('rpc', 'deprecatedrpc') }
@@ -179,7 +203,11 @@ class Editor extends Component {
           { this.text('rpc', 'rpcbind') }
           { this.flag('rpc', 'rpcdoccheck') }
           { this.path('rpc', 'rpccookiefile', base, platform) }
+          { this.text('rpc', 'rpccookieperms') }
           { this.text('rpc', 'rpcauth') }
+          { this.text('rpc', 'rpcuser') }
+          { this.text('rpc', 'rpcpassword') }
+          { this.text('rpc', 'rpcauthfile') }
           { this.number('rpc', 'rpcport') }
           { this.text('rpc', 'rpcallowip') }
           { this.flag('rpc', 'rpcwhitelistdefault') }
@@ -209,6 +237,7 @@ class Editor extends Component {
           { this.flag('wallet', 'walletrbf') }
           { this.text('wallet', 'wallet') }
           { this.path('wallet', 'walletdir', base, platform) }
+          { this.flag('wallet', 'walletimplicitsegwit') }
           { this.flag('wallet', 'walletbroadcast') }
           { this.text('wallet', 'walletnotify') }
           { this.number('wallet', 'dblogsize') }
@@ -220,14 +249,22 @@ class Editor extends Component {
         <Section title={data.zeromq.section} description={data.zeromq.description}>
           { this.text('zeromq', 'zmqpubhashblock') }
           { this.text('zeromq', 'zmqpubhashtx') }
+          { this.text('zeromq', 'zmqpubhashwallettx') }
           { this.text('zeromq', 'zmqpubrawblock') }
           { this.text('zeromq', 'zmqpubrawtx') }
+          { this.text('zeromq', 'zmqpubrawwallettx') }
           { this.text('zeromq', 'zmqpubsequence') }
           { this.number('zeromq', 'zmqpubhashblockhwm') }
           { this.number('zeromq', 'zmqpubhashtxhwm') }
+          { this.number('zeromq', 'zmqpubhashwallettxhwm') }
           { this.number('zeromq', 'zmqpubrawblockhwm') }
           { this.number('zeromq', 'zmqpubrawtxhwm') }
+          { this.number('zeromq', 'zmqpubrawwallettxhwm') }
           { this.number('zeromq', 'zmqpubsequencehwm') }
+        </Section>
+        <Section title={data.stats.section} description={data.stats.description}>
+          { this.flag('stats', 'statsenable') }
+          { this.number('stats', 'statsmaxmemorytarget') }
         </Section>
       </div>
     );
