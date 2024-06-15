@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from '../knots_logo.svg'
+import logo from '../icons/knots_logo.svg'
 
 function Logo ({width, height, title, className}) {
   return (
     <img
       className={className}
       src={logo}
-      alt="Knots logo"
+      alt='Knots logo'
       title={title}
       width={width}
       height={height}

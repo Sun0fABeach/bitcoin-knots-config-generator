@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import Section from './Section';
 import Item from './Item';
 import Select from './controls/Select';
+import GithubLink from './GithubLink';
 
 import { localPath, basePath, joinPath } from '../system';
 import data from '../data.json';
+
+import './Editor.css'
 
 class Editor extends Component {
   static propTypes = {
@@ -32,8 +35,11 @@ class Editor extends Component {
     }
 
     return (
-      <div>
-        { this.select('__internal', 'platform') }
+      <div className='editor'>
+        <div className='platform-selection-row'>
+          { this.select('__internal', 'platform') }
+          <GithubLink className='github-link' />
+        </div>
 
         <Section title={data.core.section} description={data.core.description}>
           { this.text('core', 'alertnotify') }

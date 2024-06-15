@@ -54,8 +54,8 @@ class Section extends Component {
           {title}
           {knotsExclusive &&
             <Logo
-              className="knots-tag"
-              title="Knots exclusive"
+              className='knots-tag'
+              title='Knots exclusive'
               width={25}
               height={25}
             />

@@ -16,8 +16,8 @@ function Item ({title, description, children, disabled, knotsExclusive}) {
           <span>{title}</span>
           {knotsExclusive &&
             <Logo
-              className="knots-tag"
-              title="Knots exclusive"
+              className='knots-tag'
+              title='Knots exclusive'
               width={22}
               height={22}
             />
