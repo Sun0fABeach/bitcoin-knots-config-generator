@@ -2,11 +2,11 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
-.mdl-layout__header-row.top-bar .header-logo {
-  padding-right: 1rem;
+.mdl-layout__header-row.top-bar .header-knots-link {
+  margin-right: 1rem;
 }
 .mdl-layout__header-row.top-bar .header-github-link {
-  padding-left: 1rem;
+  margin-left: 1rem;
 }
 
 .mdl-layout-title.title-long {

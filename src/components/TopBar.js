@@ -9,7 +9,13 @@ function TopBar () {
   return (
     <div className='mdl-layout__header'>
       <div className='mdl-layout__header-row top-bar'>
-        <Logo className="header-logo" title="Bitcoin Knots" width={50} height={50} />
+        <a
+          className="header-knots-link"
+          href="https://bitcoinknots.org/"
+          target="_blank"
+        >
+          <Logo title="Bitcoin Knots" width={50} height={50} />
+        </a>
         <div className='mdl-layout-spacer' />
         <span className='mdl-layout-title title-long'>Bitcoin Knots Config Generator (compatible with Knots {version})</span>
         <span className='mdl-layout-title title-short'>Config Generator (Knots {version})</span>
