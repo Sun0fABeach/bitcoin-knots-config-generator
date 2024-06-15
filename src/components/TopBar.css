@@ -1,8 +1,12 @@
 .mdl-layout__header-row.top-bar {
   padding-left: 1rem;
-}
-.mdl-layout__header-row.top-bar img {
   padding-right: 1rem;
+}
+.mdl-layout__header-row.top-bar .header-logo {
+  padding-right: 1rem;
+}
+.mdl-layout__header-row.top-bar .header-github-link {
+  padding-left: 1rem;
 }
 
 .mdl-layout-title.title-long {
