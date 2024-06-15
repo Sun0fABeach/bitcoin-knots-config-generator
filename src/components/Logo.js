@@ -7,7 +7,7 @@ function Logo ({width, height, title, className}) {
     <img
       className={className}
       src={logo}
-      alt="Knots logo"
+      alt='Knots logo'
       title={title}
       width={width}
       height={height}
