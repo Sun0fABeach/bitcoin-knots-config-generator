@@ -1,6 +1,10 @@
 .section {
   border-bottom: 2px solid #eee;
 }
+.section .knots-tag {
+  padding-left: 0.5rem;
+  vertical-align: text-bottom;
+}
 .section .section-list {
   margin-top: 0;
   padding-top: 0;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Logo from './Logo';
 
 import './Section.css';
 
@@ -38,7 +39,7 @@ class Section extends Component {
   };
 
   render () {
-    const {title, description, children} = this.props;
+    const {title, description, knotsExclusive, children} = this.props;
     const {collapsed} = this.state;
     return (
       <div className='section'>
@@ -51,6 +52,14 @@ class Section extends Component {
             )}
           </button>
           {title}
+          {knotsExclusive &&
+            <Logo
+              className="knots-tag"
+              title="Knots exclusive"
+              width={25}
+              height={25}
+            />
+          }
         </h5>
         <p>{description}</p>
         <ul className='mdl-list section-list' style={collapsed ? styles.sectionHidden : styles.sectionVisible}>
@@ -64,11 +73,13 @@ class Section extends Component {
     collapsed: PropTypes.bool,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    knotsExclusive: PropTypes.bool,
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired
   };
 
   static defaultProps = {
-    collapsed: true
+    collapsed: true,
+    knotsExclusive: false
   };
 }
 

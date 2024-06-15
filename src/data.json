@@ -53,9 +53,10 @@
       "default": ""
     },
     "signetblocktime": {
-      "name": "Signet Blocktime (Knots Exclusive)",
+      "name": "Signet Blocktime",
       "shortDescription": "Difficulty adjustment will target a block time of the given amount in seconds (must have -signetchallenge set).",
-      "description": "Difficulty adjustment will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
+      "description": "Difficulty adjustmnt will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
+      "knotsExclusive": true,
       "default": 600
     },
     "signetseednode": {
@@ -151,20 +152,23 @@
       "max": 1048576
     },
     "dbfilesize": {
-      "name": "DB File Size (Knots Exclusive)",
+      "name": "DB File Size",
       "description": "Target size of files within databases, in MiB.",
+      "knotsExclusive": true,
       "default": 128,
       "min": 1,
       "max": 1024
     },
     "lowmem": {
-      "name": "Low Memory (Knots Exclusive)",
+      "name": "Low Memory",
       "description": "If system available memory falls below <n> MiB, flush caches.",
+      "knotsExclusive": true,
       "default": "10"
     },
     "confrw": {
-      "name": "Include Read/Write Config File (Knots Exclusive)",
+      "name": "Include Read/Write Config File",
       "description": "Specify path to read/write configuration file. Relative paths will be prefixed by the network-specific datadir location.",
+      "knotsExclusive": true,
       "default": "bitcoin_rw.conf"
     },
     "includeconf": {
@@ -256,8 +260,9 @@
       "default": ""
     },
     "softwareexpiry": {
-      "name": "Software Expiry (Knots Exclusive)",
+      "name": "Software Expiry",
       "description": "Stop working after this POSIX timestamp.",
+      "knotsExclusive": true,
       "default": "1767251360"
     },
     "startupnotify": {
@@ -613,8 +618,9 @@
       "default": 0
     },
     "acceptnonstddatacarrier": {
-      "name": "Accept Non-Standard Datacarrier Transactions (Knots Exclusive)",
+      "name": "Accept Non-Standard Datacarrier Transactions",
       "description": "Relay and mine non-OP_RETURN datacarrier injection.",
+      "knotsExclusive": true,
       "default": 0
     },
     "minrelaytxfee": {
@@ -636,8 +642,9 @@
       "min": 0
     },
     "dustdynamic": {
-      "name": "Dynamic Dust Relay Fee (Knots Exclusive)",
+      "name": "Dynamic Dust Relay Fee",
       "description": "Automatically raise dustrelayfee based on either the expected fee to be mined within <blocks> blocks, or to be within the best <kvB> kvB of this node's mempool. If unspecified, multiplier is 3000. Specify in format: off|[<multiplier>*]target:<blocks>|[<multiplier>*]mempool:<kvB>",
+      "knotsExclusive": true,
       "default": "off"
     },
     "bytespersigop": {
@@ -647,8 +654,9 @@
       "min": 1
     },
     "bytespersigopstrict": {
-      "name": "Bytes Per Signature Operation Strict (Knots Exclusive)",
+      "name": "Bytes Per Signature Operation Strict",
       "description": "Minimum bytes per sigop in transactions we relay and mine.",
+      "knotsExclusive": true,
       "default": 20,
       "min": 1
     },
@@ -664,13 +672,15 @@
       "min": 0
     },
     "datacarriercost": {
-      "name": "Data Carrier Cost (Knots Exclusive)",
+      "name": "Data Carrier Cost",
       "description": "Treat extra data in transactions as at least N vbytes per actual byte.",
+      "knotsExclusive": true,
       "default": 1
     },
     "datacarrierfullcount": {
-      "name": "Data Carrier Full Count (Knots Exclusive)",
+      "name": "Data Carrier Full Count",
       "description": "Apply datacarriersize limit to all known datacarrier methods.",
+      "knotsExclusive": true,
       "default": 1
     },
     "permitbaremultisig": {
@@ -679,28 +689,32 @@
       "default": 0
     },
     "permitbarepubkey": {
-      "name": "Permit Bare Pubkey (Knots Exclusive)",
+      "name": "Permit Bare Pubkey",
       "description": "Relay legacy pubkey outputs.",
+      "knotsExclusive": true,
       "default": 0
     },
     "rejectparasites": {
-      "name": "Reject Parasites (Knots Exclusive)",
+      "name": "Reject Parasites",
       "description": "Refuse to relay or mine parasitic overlay protocols.",
+      "knotsExclusive": true,
       "default": 1
     },
     "rejecttokens": {
-      "name": "Reject Tokens (Knots Exclusive)",
+      "name": "Reject Tokens",
       "description": "Refuse to relay or mine transactions involving non-bitcoin tokens.",
+      "knotsExclusive": true,
       "default": 0
     },
     "maxscriptsize": {
-      "name": "Maximum Script Size (Knots Exclusive)",
+      "name": "Maximum Script Size",
       "description": "Maximum size of scripts we relay and mine in bytes.",
+      "knotsExclusive": true,
       "default": 1650,
       "min": 0
     },
     "spkreuse": {
-      "name": "Script And Public Key Reuse (Knots Exclusive)",
+      "name": "Script And Public Key Reuse",
       "description": {
         "allow": "Accept transactions reusing addresses or other pubkey scripts.",
         "conflict": "Reject transactions reusing addresses or other pubkey scripts."
@@ -709,6 +723,7 @@
         "Allow [allow]",
         "Disallow [conflict]"
       ],
+      "knotsExclusive": true,
       "default": "allow"
     },
     "mempoolfullrbf": {
@@ -717,7 +732,7 @@
       "default": 1
     },
     "mempoolreplacement": {
-      "name": "Mempool Replacement (Knots Exclusive)",
+      "name": "Mempool Replacement",
       "description": {
         "0": "Disable RBF entirely.",
         "fee,optin": "Honor RBF opt-out signal.",
@@ -728,6 +743,7 @@
         "Honor opt-out [fee,optin]",
         "Full RBF [fee,-optin]"
       ],
+      "knotsExclusive": true,
       "default": "fee,-optin"
     },
     "whitelistrelay": {
@@ -741,8 +757,9 @@
       "default": 0
     },
     "corepolicy": {
-      "name": "Bitcoin Core Policy (Knots Exclusive)",
+      "name": "Bitcoin Core Policy",
       "description": "Use Bitcoin Core policy defaults.",
+      "knotsExclusive": true,
       "default": 0
     }
   },
@@ -813,8 +830,9 @@
       "default": 0
     },
     "feefilter": {
-      "name": "Fee filter (Knots Exclusive)",
+      "name": "Fee filter",
       "description": "Tell other nodes to filter invs to us by our mempool min fee.",
+      "knotsExclusive": true,
       "default": 1
     },
     "i2pacceptincoming": {
@@ -952,8 +970,9 @@
       "default": "127.0.0.1:9051"
     },
     "torexecute": {
-      "name": "Tor Control (Knots Exclusive)",
+      "name": "Tor Control",
       "description": "Tor command to use if not already running.",
+      "knotsExclusive": true,
       "default": "tor"
     },
     "torpassword": {
@@ -967,8 +986,9 @@
       "default": 0
     },
     "uaappend": {
-      "name": "User Agent Append (Knots Exclusive)",
+      "name": "User Agent Append",
       "description": "Append literal to the user agent string (should only be used for software embedding).",
+      "knotsExclusive": true,
       "default": ""
     },
     "upnp": {
@@ -998,8 +1018,9 @@
     "section": "Mining",
     "description": "Configure attributes of blocks that can be mined by this node.",
     "blockmaxsize": {
-      "name": "Max Block Size (Knots Exclusive)",
+      "name": "Max Block Size",
       "description": "Set maximum block size in bytes.",
+      "knotsExclusive": true,
       "default": 3000000,
       "min": 0
     },
@@ -1015,8 +1036,9 @@
       "min": 0
     },
     "blockprioritysize": {
-      "name": "Block Priority Size (Knots Exclusive)",
+      "name": "Block Priority Size",
       "description": "Set maximum size of high-priority/low-fee transactions in bytes.",
+      "knotsExclusive": true,
       "default": 100000,
       "min": 0
     },
@@ -1072,8 +1094,9 @@
       "default": "$BASE"
     },
     "rpccookieperms": {
-      "name": "RPC Cookie Permissions (Knots Exclusive)",
+      "name": "RPC Cookie Permissions",
       "description": "Set the permissions on the RPC auth cookie file to the specified octal value.",
+      "knotsExclusive": true,
       "default": "600"
     },
     "rpcauth": {
@@ -1093,8 +1116,9 @@
       "default": ""
     },
     "rpcauthfile": {
-      "name": "RPC Auth File (Knots Exclusive)",
+      "name": "RPC Auth File",
       "description": "A file with a single line with the same format as rpcauth. This option can be specified multiple times.",
+      "knotsExclusive": true,
       "default": ""
     },
     "rpcport": {
@@ -1280,8 +1304,9 @@
       "default": "$BASE/wallets"
     },
     "walletimplicitsegwit": {
-      "name": "Wallet Implicit Segwit (Knots Exclusive)",
+      "name": "Wallet Implicit Segwit",
       "description": "Support segwit when restoring wallet backups and importing keys.",
+      "knotsExclusive": true,
       "default": 0
     },
     "walletbroadcast": {
@@ -1335,8 +1360,9 @@
       "default": ""
     },
     "zmqpubhashwallettx": {
-      "name": "Publish Wallet Transaction Hashes (Knots Exclusive)",
+      "name": "Publish Wallet Transaction Hashes",
       "description": "Enable publishing of wallet transaction hashes to <address>.",
+      "knotsExclusive": true,
       "default": ""
     },
     "zmqpubrawblock": {
@@ -1350,8 +1376,9 @@
       "default": ""
     },
     "zmqpubrawwallettx": {
-      "name": "Publish Raw Wallet Transaction (Knots Exclusive)",
+      "name": "Publish Raw Wallet Transaction",
       "description": "Enable publishing of raw wallet transaction hex to <address>.",
+      "knotsExclusive": true,
       "default": ""
     },
     "zmqpubsequence": {
@@ -1370,8 +1397,9 @@
       "default": 1000
     },
     "zmqpubhashwallettxhwm": {
-      "name": "Publish Wallet Transaction Hashes High Water Mark (Knots Exclusive)",
+      "name": "Publish Wallet Transaction Hashes High Water Mark",
       "description": "Set publish hash wallet transaction outbound message high water mark.",
+      "knotsExclusive": true,
       "default": 1000
     },
     "zmqpubrawblockhwm": {
@@ -1385,8 +1413,9 @@
       "default": 1000
     },
     "zmqpubrawwallettxhwm": {
-      "name": "Publish Raw Wallet Transactions High Water Mark (Knots Exclusive)",
+      "name": "Publish Raw Wallet Transactions High Water Mark",
       "description": "Set publish raw wallet transaction outbound message high water mark.",
+      "knotsExclusive": true,
       "default": 1000
     },
     "zmqpubsequencehwm": {
@@ -1396,16 +1425,19 @@
     }
   },
   "stats": {
-    "section": "Statistics (Knots Exclusive)",
+    "section": "Statistics",
     "description": "Options for collecting statistics.",
+    "knotsExclusive": true,
     "statsenable": {
-      "name": "Enable statistics (Knots Exclusive)",
+      "name": "Enable statistics",
       "description": "Enable statistics.",
+      "knotsExclusive": true,
       "default": 0
     },
     "statsmaxmemorytarget": {
-      "name": "Statistics Maximum Memory Target (Knots Exclusive)",
+      "name": "Statistics Maximum Memory Target",
       "description": "Set the memory limit target for statistics in bytes.",
+      "knotsExclusive": true,
       "default": 10485760
     }
   }
