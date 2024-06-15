@@ -262,7 +262,11 @@ class Editor extends Component {
           { this.number('zeromq', 'zmqpubrawwallettxhwm') }
           { this.number('zeromq', 'zmqpubsequencehwm') }
         </Section>
-        <Section title={data.stats.section} description={data.stats.description}>
+        <Section
+          title={data.stats.section}
+          description={data.stats.description}
+          knotsExclusive={data.stats.knotsExclusive}
+        >
           { this.flag('stats', 'statsenable') }
           { this.number('stats', 'statsmaxmemorytarget') }
         </Section>
@@ -285,6 +289,7 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
+        knotsExclusive={data[section][prop].knotsExclusive}
       >
         <Select
           onChange={this.change(settings[section], prop)}
@@ -331,8 +336,8 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
-        large
-        >
+        knotsExclusive={data[section][prop].knotsExclusive}
+      >
         {data[section][prop].values.map(val).map(value => {
           const id = `${configMode}_${section}_${prop}_${value.value}`;
 
@@ -365,6 +370,7 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
+        knotsExclusive={data[section][prop].knotsExclusive}
       >
         <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
           <input
@@ -393,6 +399,7 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
+        knotsExclusive={data[section][prop].knotsExclusive}
       >
         <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
           <input
@@ -436,6 +443,7 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
+        knotsExclusive={data[section][prop].knotsExclusive}
       >
         <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
           <input
@@ -466,7 +474,8 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
-        >
+        knotsExclusive={data[section][prop].knotsExclusive}
+      >
         <label className='mdl-switch mdl-js-switch' htmlFor={id}>
           <input
             type='checkbox'
@@ -493,6 +502,7 @@ class Editor extends Component {
         title={data[section][prop].name}
         description={description}
         disabled={!isEnabled}
+        knotsExclusive={data[section][prop].knotsExclusive}
       >
         <div className='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
           {value.map((v, idx) => (

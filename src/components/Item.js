@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Logo from './Logo';
 
 const heightStyle = {height: '100%'};
 
-function Item ({title, description, children, disabled, large}) {
+function Item ({title, description, children, disabled, knotsExclusive}) {
   const isDisabled = disabled ? 'disabled' : '';
   return (
     <li
@@ -11,7 +12,17 @@ function Item ({title, description, children, disabled, large}) {
       style={heightStyle}
     >
       <span className='mdl-list__item-primary-content' style={heightStyle}>
-        <span>{title}</span>
+        <span>
+          <span>{title}</span>
+          {knotsExclusive &&
+            <Logo
+              className="knots-tag"
+              title="Knots exclusive"
+              width={22}
+              height={22}
+            />
+          }
+        </span>
         <span className='mdl-list__item-sub-title'>
           {description}
         </span>
@@ -28,12 +39,12 @@ Item.propTypes = {
   description: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]).isRequired,
   disabled: PropTypes.bool,
-  large: PropTypes.bool
+  knotsExclusive: PropTypes.bool
 };
 
 Item.defaultPropTypes = {
   disabled: false,
-  large: false
+  knotsExclusive: false
 };
 
 export default Item;
