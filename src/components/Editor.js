@@ -288,7 +288,7 @@ class Editor extends Component {
 
     const {settings} = this.props;
     const value = or(settings[section][prop], data[section][prop].default);
-    const description = fillDescription(data[section][prop].description[value], value, `${section}.${prop}`);
+    const description = fillDescription(data[section][prop].description, value, `${section}.${prop}`);
 
     return (
       <Item
@@ -316,13 +316,7 @@ class Editor extends Component {
 
     const {settings} = this.props;
     const current = settings[section][prop];
-    var description;
-
-    if (current === undefined || current.length === 0) {
-      description = '';
-    } else {
-      description = fillDescription(data[section][prop].description, current);
-    }
+    const description = fillDescription(data[section][prop].description, current);
 
     const change = (val) => (ev) => {
       const {checked} = ev.target;
