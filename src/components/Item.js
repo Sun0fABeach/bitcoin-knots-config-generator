@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Logo from './Logo';
 
-const heightStyle = {height: '100%'};
+import './Item.css'
+
+const heightStyle = { height: '100%' };
 
 function Item ({title, description, children, disabled, knotsExclusive}) {
   const isDisabled = disabled ? 'disabled' : '';
   return (
     <li
-      className={`mdl-list__item mdl-list__item--two-line ${isDisabled}`}
+      className={`item mdl-list__item mdl-list__item--two-line ${isDisabled}`}
       style={heightStyle}
     >
       <span className='mdl-list__item-primary-content' style={heightStyle}>

@@ -1,14 +1,10 @@
 .editor .platform-selection-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-.editor .platform-selection-row .mdl-list__item-secondary-content {
-  margin-left: 2rem;
 }
 .editor .platform-selection-row .github-link {
+  margin-top: 1.5rem;
   margin-left: 1rem;
-  margin-bottom: 1rem;
 }
 
 @media (min-width: 700px) {

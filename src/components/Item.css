@@ -1,0 +1,23 @@
+.item.mdl-list__item {
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.item.mdl-list__item .mdl-list__item-secondary-content {
+  margin-top: 0.5rem;
+  margin-left: 0;
+}
+
+@media (min-width: 840px) {
+  .item.mdl-list__item {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .item.mdl-list__item .mdl-list__item-secondary-content {
+    margin-top: 0;
+    margin-left: 1rem;
+  }
+}
