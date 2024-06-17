@@ -138,6 +138,7 @@ function toComment (settings, section, key, value) {
   data[section][key] = data[section][key] || {};
 
   const description =
+    data[section][key].valueDescriptions ||
     data[section][key].shortDescription ||
     data[section][key].description
 

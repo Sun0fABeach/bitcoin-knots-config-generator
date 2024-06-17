@@ -16,11 +16,12 @@
     "description": "Choose which network / blockchain to use.",
     "chain": {
       "name": "Chain",
-      "description": {
-        "main": "Main Network",
-        "test": "Test Network",
-        "signet": "Signature Network",
-        "regtest": "Regression Test Network"
+      "description": "Choose which network / blockchain to use.",
+      "valueDescriptions": {
+        "main": "Use main network.",
+        "test": "Use test network.",
+        "signet": "Use signature network.",
+        "regtest": "Use regression test network."
       },
       "values": [
         "Mainnet [main]",
@@ -56,8 +57,8 @@
       "name": "Signet Blocktime",
       "shortDescription": "Difficulty adjustment will target a block time of the given amount in seconds (must have -signetchallenge set).",
       "description": "Difficulty adjustmnt will target a block time of the given amount in seconds (only for custom signet networks, must have -signetchallenge set; defaults to 10 minutes).",
-      "knotsExclusive": true,
-      "default": 600
+      "default": 600,
+      "knotsExclusive": true
     },
     "signetseednode": {
       "name": "Signet Seed Node",
@@ -81,11 +82,12 @@
     },
     "blockfilterindex": {
       "name": "Block Filter Index",
-      "description": {
-        "0": "Disable compact filters",
-        "1": "Certain indexes are enabled (currently just basic)",
-        "v0": "v0",
-        "basic": "Basic filters"
+      "description": "Maintain an index of compact filters by block. If set to 1, certain indexes are enabled (currently just basic).",
+      "valueDescriptions": {
+        "0": "Disable compact filters.",
+        "1": "Certain indexes are enabled (currently just basic).",
+        "v0": "v0.",
+        "basic": "Enable basic filters."
       },
       "default": "0",
       "values": [
@@ -154,22 +156,22 @@
     "dbfilesize": {
       "name": "DB File Size",
       "description": "Target size of files within databases, in MiB.",
-      "knotsExclusive": true,
       "default": 128,
       "min": 1,
-      "max": 1024
+      "max": 1024,
+      "knotsExclusive": true
     },
     "lowmem": {
       "name": "Low Memory",
       "description": "If system available memory falls below <n> MiB, flush caches.",
-      "knotsExclusive": true,
-      "default": "10"
+      "default": "10",
+      "knotsExclusive": true
     },
     "confrw": {
       "name": "Include Read/Write Config File",
       "description": "Specify path to read/write configuration file. Relative paths will be prefixed by the network-specific datadir location.",
-      "knotsExclusive": true,
-      "default": "bitcoin_rw.conf"
+      "default": "bitcoin_rw.conf",
+      "knotsExclusive": true
     },
     "includeconf": {
       "name": "Include Additional Config File",
@@ -262,8 +264,8 @@
     "softwareexpiry": {
       "name": "Software Expiry",
       "description": "Stop working after this POSIX timestamp.",
-      "knotsExclusive": true,
-      "default": "1767251360"
+      "default": "1767251360",
+      "knotsExclusive": true
     },
     "startupnotify": {
       "name": "Startup Notification",
@@ -390,38 +392,39 @@
     },
     "debug": {
       "name": "Debug Logging",
-      "description": {
+      "description": "Output debug and trace logging. If set to 1, output for all categories. This option can be specified multiple times to output multiple categories.",
+      "valueDescriptions": {
         "0": "Disable debug logging.",
         "1": "Enable debug logging for all categories.",
         "addrman": "Enable address manager logging.",
-        "bench": "Enable benchmark logging",
-        "blockstorage": "Enable block storage logging",
-        "cmpctblock": "Enable compact block logging",
-        "coindb": "Enable coin database logging",
-        "estimatefee": "Enable fee estimation logging",
-        "http": "Enable HTTP logging",
-        "i2p": "Enable I2P logging",
-        "ipc": "Enable IPC logging",
-        "leveldb": "Enable leveldb logging",
-        "libevent": "Enable libevent logging",
-        "mempool": "Enable mempool logging",
-        "mempoolrej": "Enable mempool rejection logging",
-        "net": "Enable network logging",
-        "proxy": "Enable proxy logging",
-        "prune": "Enable pruning logging",
-        "qt": "Enable QT logging",
-        "rand": "Enable randomness logging",
-        "reindex": "Enable reindexing logging",
-        "rpc": "Enable RPC logging",
-        "scan": "Enable scan logging",
-        "selectcoins": "Enable coin selection logging",
-        "tor": "Enable Tor logging",
-        "txpackages": "Enable transaction packages logging",
-        "txreconciliation": "Enable transaction reconciliation logging",
-        "util": "Enable utility logging",
-        "validation": "Enable transaction validation logging",
-        "walletdb": "Enable wallet database logging",
-        "zmq": "Enable ZeroMQ logging"
+        "bench": "Enable benchmark logging.",
+        "blockstorage": "Enable block storage logging.",
+        "cmpctblock": "Enable compact block logging.",
+        "coindb": "Enable coin database logging.",
+        "estimatefee": "Enable fee estimation logging.",
+        "http": "Enable HTTP logging.",
+        "i2p": "Enable I2P logging.",
+        "ipc": "Enable IPC logging.",
+        "leveldb": "Enable leveldb logging.",
+        "libevent": "Enable libevent logging.",
+        "mempool": "Enable mempool logging.",
+        "mempoolrej": "Enable mempool rejection logging.",
+        "net": "Enable network logging.",
+        "proxy": "Enable proxy logging.",
+        "prune": "Enable pruning logging.",
+        "qt": "Enable QT logging.",
+        "rand": "Enable randomness logging.",
+        "reindex": "Enable reindexing logging.",
+        "rpc": "Enable RPC logging.",
+        "scan": "Enable scan logging.",
+        "selectcoins": "Enable coin selection logging.",
+        "tor": "Enable Tor logging.",
+        "txpackages": "Enable transaction packages logging.",
+        "txreconciliation": "Enable transaction reconciliation logging.",
+        "util": "Enable utility logging.",
+        "validation": "Enable transaction validation logging.",
+        "walletdb": "Enable wallet database logging.",
+        "zmq": "Enable ZeroMQ logging."
       },
       "values": [
         "Disable [0]",
@@ -461,37 +464,38 @@
     },
     "debugexclude": {
       "name": "Exclude Debug Logging",
-      "description": {
+      "description": "Exclude debug and trace logging for a category. Can be used in conjunction with -debug=1 to output debug and trace logging for all categories except the specified category. This option can be specified multiple times to exclude multiple categories.",
+      "valueDescriptions": {
         "0": "Don't exclude any logging.",
         "addrman": "Exclude address manager logging.",
-        "bench": "Exclude benchmark logging",
-        "blockstorage": "Exclude block storage logging",
-        "cmpctblock": "Exclude compact block logging",
-        "coindb": "Exclude coin database logging",
-        "estimatefee": "Exclude fee estimation logging",
-        "http": "Exclude HTTP logging",
-        "i2p": "Exclude I2P logging",
-        "ipc": "Exclude IPC logging",
-        "leveldb": "Exclude leveldb logging",
-        "libevent": "Exclude libevent logging",
-        "mempool": "Exclude mempool logging",
-        "mempoolrej": "Exclude mempool rejection logging",
-        "net": "Exclude network logging",
-        "proxy": "Exclude proxy logging",
-        "prune": "Exclude pruning logging",
-        "qt": "Exclude QT logging",
-        "rand": "Exclude randomness logging",
-        "reindex": "Exclude reindexing logging",
-        "rpc": "Exclude RPC logging",
-        "scan": "Exclude scan logging",
-        "selectcoins": "Exclude coin selection logging",
-        "tor": "Exclude Tor logging",
-        "txpackages": "Exclude transaction packages logging",
-        "txreconciliation": "Exclude transaction reconciliation logging",
-        "util": "Exclude utility logging",
-        "validation": "Exclude transaction validation logging",
-        "walletdb": "Exclude wallet database logging",
-        "zmq": "Exclude ZeroMQ logging"
+        "bench": "Exclude benchmark logging.",
+        "blockstorage": "Exclude block storage logging.",
+        "cmpctblock": "Exclude compact block logging.",
+        "coindb": "Exclude coin database logging.",
+        "estimatefee": "Exclude fee estimation logging.",
+        "http": "Exclude HTTP logging.",
+        "i2p": "Exclude I2P logging.",
+        "ipc": "Exclude IPC logging.",
+        "leveldb": "Exclude leveldb logging.",
+        "libevent": "Exclude libevent logging.",
+        "mempool": "Exclude mempool logging.",
+        "mempoolrej": "Exclude mempool rejection logging.",
+        "net": "Exclude network logging.",
+        "proxy": "Exclude proxy logging.",
+        "prune": "Exclude pruning logging.",
+        "qt": "Exclude QT logging.",
+        "rand": "Exclude randomness logging.",
+        "reindex": "Exclude reindexing logging.",
+        "rpc": "Exclude RPC logging.",
+        "scan": "Exclude scan logging.",
+        "selectcoins": "Exclude coin selection logging.",
+        "tor": "Exclude Tor logging.",
+        "txpackages": "Exclude transaction packages logging.",
+        "txreconciliation": "Exclude transaction reconciliation logging.",
+        "util": "Exclude utility logging.",
+        "validation": "Exclude transaction validation logging.",
+        "walletdb": "Exclude wallet database logging.",
+        "zmq": "Exclude ZeroMQ logging."
       },
       "values": [
         "No Exclusions [0]",
@@ -620,8 +624,8 @@
     "acceptnonstddatacarrier": {
       "name": "Accept Non-Standard Datacarrier Transactions",
       "description": "Relay and mine non-OP_RETURN datacarrier injection.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     },
     "minrelaytxfee": {
       "name": "Min Transaction Relay Fee",
@@ -644,8 +648,8 @@
     "dustdynamic": {
       "name": "Dynamic Dust Relay Fee",
       "description": "Automatically raise dustrelayfee based on either the expected fee to be mined within <blocks> blocks, or to be within the best <kvB> kvB of this node's mempool. If unspecified, multiplier is 3000. Specify in format: off|[<multiplier>*]target:<blocks>|[<multiplier>*]mempool:<kvB>",
-      "knotsExclusive": true,
-      "default": "off"
+      "default": "off",
+      "knotsExclusive": true
     },
     "bytespersigop": {
       "name": "Bytes Per Signature Operation",
@@ -656,9 +660,9 @@
     "bytespersigopstrict": {
       "name": "Bytes Per Signature Operation Strict",
       "description": "Minimum bytes per sigop in transactions we relay and mine.",
-      "knotsExclusive": true,
       "default": 20,
-      "min": 1
+      "min": 1,
+      "knotsExclusive": true
     },
     "datacarrier": {
       "name": "Data Carrier",
@@ -674,14 +678,14 @@
     "datacarriercost": {
       "name": "Data Carrier Cost",
       "description": "Treat extra data in transactions as at least N vbytes per actual byte.",
-      "knotsExclusive": true,
-      "default": 1
+      "default": 1,
+      "knotsExclusive": true
     },
     "datacarrierfullcount": {
       "name": "Data Carrier Full Count",
       "description": "Apply datacarriersize limit to all known datacarrier methods.",
-      "knotsExclusive": true,
-      "default": 1
+      "default": 1,
+      "knotsExclusive": true
     },
     "permitbaremultisig": {
       "name": "Permit Bare Multisig",
@@ -691,31 +695,32 @@
     "permitbarepubkey": {
       "name": "Permit Bare Pubkey",
       "description": "Relay legacy pubkey outputs.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     },
     "rejectparasites": {
       "name": "Reject Parasites",
       "description": "Refuse to relay or mine parasitic overlay protocols.",
-      "knotsExclusive": true,
-      "default": 1
+      "default": 1,
+      "knotsExclusive": true
     },
     "rejecttokens": {
       "name": "Reject Tokens",
       "description": "Refuse to relay or mine transactions involving non-bitcoin tokens.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     },
     "maxscriptsize": {
       "name": "Maximum Script Size",
       "description": "Maximum size of scripts we relay and mine in bytes.",
-      "knotsExclusive": true,
       "default": 1650,
-      "min": 0
+      "min": 0,
+      "knotsExclusive": true
     },
     "spkreuse": {
       "name": "Script And Public Key Reuse",
-      "description": {
+      "description": "Accept transactions reusing addresses or other pubkey scripts.",
+      "valueDescriptions": {
         "allow": "Accept transactions reusing addresses or other pubkey scripts.",
         "conflict": "Reject transactions reusing addresses or other pubkey scripts."
       },
@@ -723,8 +728,8 @@
         "Allow [allow]",
         "Disallow [conflict]"
       ],
-      "knotsExclusive": true,
-      "default": "allow"
+      "default": "allow",
+      "knotsExclusive": true
     },
     "mempoolfullrbf": {
       "name": "Mempool Full RBF",
@@ -733,7 +738,8 @@
     },
     "mempoolreplacement": {
       "name": "Mempool Replacement",
-      "description": {
+      "description": "Set mempool RBF policy.",
+      "valueDescriptions": {
         "0": "Disable RBF entirely.",
         "fee,optin": "Honor RBF opt-out signal.",
         "fee,-optin": "Always RBF aka full RBF."
@@ -743,8 +749,8 @@
         "Honor opt-out [fee,optin]",
         "Full RBF [fee,-optin]"
       ],
-      "knotsExclusive": true,
-      "default": "fee,-optin"
+      "default": "fee,-optin",
+      "knotsExclusive": true
     },
     "whitelistrelay": {
       "name": "Whitelist Relay",
@@ -759,8 +765,8 @@
     "corepolicy": {
       "name": "Bitcoin Core Policy",
       "description": "Use Bitcoin Core policy defaults.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     }
   },
   "network": {
@@ -832,8 +838,8 @@
     "feefilter": {
       "name": "Fee filter",
       "description": "Tell other nodes to filter invs to us by our mempool min fee.",
-      "knotsExclusive": true,
-      "default": 1
+      "default": 1,
+      "knotsExclusive": true
     },
     "i2pacceptincoming": {
       "name": "Accept Incoming I2P Connections",
@@ -898,13 +904,14 @@
     },
     "onlynet": {
       "name": "Only Use Specific Network",
-      "description": {
-        "any": "Use every available network",
-        "ipv4": "Only connect to peers via IPV4",
-        "ipv6": "Only connect to peers via IPV6",
-        "onion": "Only connect to peers via Tor",
-        "i2p": "Only connect to peers via I2P",
-        "cjdns": "Only connect to peers via CJDNS"
+      "description": "Make automatic outbound connections only to the selected network. Inbound and manual connections are not affected by this option. It can be specified multiple times to allow multiple networks.",
+      "valueDescriptions": {
+        "any": "Use every available network.",
+        "ipv4": "Only connect to peers via IPV4.",
+        "ipv6": "Only connect to peers via IPV6.",
+        "onion": "Only connect to peers via Tor.",
+        "i2p": "Only connect to peers via I2P.",
+        "cjdns": "Only connect to peers via CJDNS."
       },
       "values": [
         "Any [any]",
@@ -972,8 +979,8 @@
     "torexecute": {
       "name": "Tor Control",
       "description": "Tor command to use if not already running.",
-      "knotsExclusive": true,
-      "default": "tor"
+      "default": "tor",
+      "knotsExclusive": true
     },
     "torpassword": {
       "name": "Tor Control Password",
@@ -988,8 +995,8 @@
     "uaappend": {
       "name": "User Agent Append",
       "description": "Append literal to the user agent string (should only be used for software embedding).",
-      "knotsExclusive": true,
-      "default": ""
+      "default": "",
+      "knotsExclusive": true
     },
     "upnp": {
       "name": "Universal Plug 'n Play",
@@ -1020,9 +1027,9 @@
     "blockmaxsize": {
       "name": "Max Block Size",
       "description": "Set maximum block size in bytes.",
-      "knotsExclusive": true,
       "default": 3000000,
-      "min": 0
+      "min": 0,
+      "knotsExclusive": true
     },
     "blockmaxweight": {
       "name": "Max Block Weight",
@@ -1038,9 +1045,9 @@
     "blockprioritysize": {
       "name": "Block Priority Size",
       "description": "Set maximum size of high-priority/low-fee transactions in bytes.",
-      "knotsExclusive": true,
       "default": 100000,
-      "min": 0
+      "min": 0,
+      "knotsExclusive": true
     },
     "blockversion": {
       "name": "Block Version",
@@ -1053,7 +1060,8 @@
     "description": "Configure security and performance options for accessing the node's RPC interface.",
     "deprecatedrpc": {
       "name": "Enable Deprecated RPC Commands",
-      "description": {
+      "description": "Allows deprecated RPC method(s) to be used.",
+      "valueDescriptions": {
         "accounts": "Enable Accounts RPC",
         "addwitnessaddress": "Enable Add Witness Address RPC",
         "signrawtransaction": "Enable Sign Raw Transaction RPC",
@@ -1096,8 +1104,8 @@
     "rpccookieperms": {
       "name": "RPC Cookie Permissions",
       "description": "Set the permissions on the RPC auth cookie file to the specified octal value.",
-      "knotsExclusive": true,
-      "default": "600"
+      "default": "600",
+      "knotsExclusive": true
     },
     "rpcauth": {
       "name": "RPC Auth",
@@ -1118,8 +1126,8 @@
     "rpcauthfile": {
       "name": "RPC Auth File",
       "description": "A file with a single line with the same format as rpcauth. This option can be specified multiple times.",
-      "knotsExclusive": true,
-      "default": ""
+      "default": "",
+      "knotsExclusive": true
     },
     "rpcport": {
       "name": "RPC Port",
@@ -1156,7 +1164,8 @@
     },
     "rpcserialversion": {
       "name": "RPC Serialization",
-      "description": {
+      "description": "Sets the serialization mode of raw transaction or block hex.",
+      "valueDescriptions": {
         "0": "Return raw transaction or block hex with non-SegWit serialization.",
         "1": "Return raw transaction or block hex with SegWit serialization."
       },
@@ -1178,11 +1187,12 @@
     "description": "Configure behavior of the node's wallet.",
     "addresstype": {
       "name": "Address Type",
-      "description": {
-        "legacy": "Legacy",
-        "p2sh-segwit": "P2SH Wrapped SegWit",
-        "bech32": "Bech32",
-        "bech32m": "Bech32 modified"
+      "description": "What type of addresses to use.",
+      "valueDescriptions": {
+        "legacy": "Use legacy addresses.",
+        "p2sh-segwit": "Use P2SH Wrapped SegWit addresses.",
+        "bech32": "Use Bech32 addresses.",
+        "bech32m": "Use Bech32 modified addresses."
       },
       "values": [
         "Legacy [legacy]",
@@ -1200,11 +1210,12 @@
     },
     "changetype": {
       "name": "Change Address Type",
-      "description": {
-        "legacy": "Legacy",
-        "p2sh-segwit": "P2SH Wrapped SegWit",
-        "bech32": "Bech32",
-        "bech32m": "Bech32 modified"
+      "description": "What type of change address to use. Default is \"legacy\" when -addresstype=legacy, else it is an implementation detail.",
+      "valueDescriptions": {
+        "legacy": "Use Legacy change addresses.",
+        "p2sh-segwit": "Use P2SH Wrapped SegWit change addresses.",
+        "bech32": "Use Bech32 change addresses.",
+        "bech32m": "Use Bech32 modified change addresses."
       },
       "values": [
         "Legacy [legacy]",
@@ -1306,8 +1317,8 @@
     "walletimplicitsegwit": {
       "name": "Wallet Implicit Segwit",
       "description": "Support segwit when restoring wallet backups and importing keys.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     },
     "walletbroadcast": {
       "name": "Wallet Transaction Broadcast",
@@ -1362,8 +1373,8 @@
     "zmqpubhashwallettx": {
       "name": "Publish Wallet Transaction Hashes",
       "description": "Enable publishing of wallet transaction hashes to <address>.",
-      "knotsExclusive": true,
-      "default": ""
+      "default": "",
+      "knotsExclusive": true
     },
     "zmqpubrawblock": {
       "name": "Publish Raw Blocks",
@@ -1378,8 +1389,8 @@
     "zmqpubrawwallettx": {
       "name": "Publish Raw Wallet Transaction",
       "description": "Enable publishing of raw wallet transaction hex to <address>.",
-      "knotsExclusive": true,
-      "default": ""
+      "default": "",
+      "knotsExclusive": true
     },
     "zmqpubsequence": {
       "name": "Publish Hash Block and Transaction Sequence",
@@ -1399,8 +1410,8 @@
     "zmqpubhashwallettxhwm": {
       "name": "Publish Wallet Transaction Hashes High Water Mark",
       "description": "Set publish hash wallet transaction outbound message high water mark.",
-      "knotsExclusive": true,
-      "default": 1000
+      "default": 1000,
+      "knotsExclusive": true
     },
     "zmqpubrawblockhwm": {
       "name": "Publish Raw Blocks High Water Mark",
@@ -1415,8 +1426,8 @@
     "zmqpubrawwallettxhwm": {
       "name": "Publish Raw Wallet Transactions High Water Mark",
       "description": "Set publish raw wallet transaction outbound message high water mark.",
-      "knotsExclusive": true,
-      "default": 1000
+      "default": 1000,
+      "knotsExclusive": true
     },
     "zmqpubsequencehwm": {
       "name": "Publish Hash Sequence Message High Water Mark",
@@ -1431,14 +1442,14 @@
     "statsenable": {
       "name": "Enable statistics",
       "description": "Enable statistics.",
-      "knotsExclusive": true,
-      "default": 0
+      "default": 0,
+      "knotsExclusive": true
     },
     "statsmaxmemorytarget": {
       "name": "Statistics Maximum Memory Target",
       "description": "Set the memory limit target for statistics in bytes.",
-      "knotsExclusive": true,
-      "default": 10485760
+      "default": 10485760,
+      "knotsExclusive": true
     }
   }
 }
