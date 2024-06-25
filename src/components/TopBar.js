@@ -3,7 +3,7 @@ import Logo from './Logo';
 import GithubLink from './GithubLink';
 import './TopBar.css';
 
-const version = '26.x'
+const version = '27.x'
 
 function TopBar () {
   return (
