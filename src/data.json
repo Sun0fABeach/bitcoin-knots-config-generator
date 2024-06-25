@@ -116,7 +116,7 @@
     "assumevalid": {
       "name": "Assume Valid Chain History",
       "shortDescription": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification.",
-      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n0000000000000000000101209b4ab3570862dc3fac8633eb62938a541c55a2ff\ntestnet:\n0000000000000093bcb68c03a9a168ae252572d348a2eaeba2cdf9231d73206f\nsignet:\n0000013d778ba3f914530f11f6b69869c9fab54acff85acd7b8201d111f19b7f.",
+      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n000000000000000000032b91acdaaf16f8c40d46afeb835c3ac604860f905d56\ntestnet:\n000000000001323071f38f21ea5aae529ece491eadaccce506a59bcc2d968917\nsignet:\n0000000870f15246ba23c16e370a7ffb1fc8a3dcf8cb4492882ed4b0e3d4cd26.",
       "default": ""
     },
     "coinstatsindex": {
@@ -208,13 +208,19 @@
     "minimumchainwork": {
       "name": "Minimum Chain Work",
       "shortDescription": "Minimum work assumed to exist on a valid chain in hex.",
-      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n0000000000000000000000000000000000000000792b48315ca0b9035b965b8c\ntestnet:\n000000000000000000000000000000000000000000000b6a51f415a67c0da307\nsignet:\n000000000000000000000000000000000000000000000000000001ad46be4862",
+      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n00000000000000000000000000000000000000007d24c0c3ca618c566e14ecd0\ntestnet:\n000000000000000000000000000000000000000000000c59b14e264ba6c15db9\nsignet:\n00000000000000000000000000000000000000000000000000000206e86f08e8",
       "default": "0000000000000000000000000000000000000000792b48315ca0b9035b965b8c"
     },
     "persistmempool": {
       "name": "Persist Mempool",
       "description": "Save the mempool on shutdown and load on restart.",
       "default": 1
+    },
+    "persistmempoolv1": {
+      "name": "Persist Mempool v1",
+      "shortDescription": "Whether a mempool.dat file created by -persistmempool or the savemempool RPC will be written in the legacy format (version 1) or the current format (version 2).",
+      "description": "Whether a mempool.dat file created by -persistmempool or the savemempool RPC will be written in the legacy format (version 1) or the current format (version 2). This temporary option will be removed in the future.",
+      "default": 0
     },
     "blockreconstructionextratxn": {
       "name": "Block Reconstruction Transactions",
@@ -336,7 +342,7 @@
     },
     "checkpoints": {
       "name": "Enable Checkpoints",
-      "description": "Enable rejection of any forks from the known historical chain until block 843264.",
+      "description": "Enable rejection of any forks from the known historical chain until block 846679.",
       "default": 1
     },
     "dbcrashratio": {
@@ -545,8 +551,13 @@
     "loglevel": {
       "name": "Log Level",
       "shortDescription": "Set the global or per-category severity level for logging in the format of either <level> or <category>:<level>. Level values may be: info, debug, or trace. Format <category>:<level> may be specified multiple times.",
-      "description": "Set the global or per-category severity level for logging in the format of either <level> or <category>:<level>. Level values may be: info, debug, or trace. Warning and error levels are always logged. If <category>:<level> is supplied, the setting will override the global one and may be specified multiple times. See 'debug' config for allowed category values.",
+      "description": "Set the global or per-category severity level for logging categories enabled with the -debug configuration option or the logging RPC in the format or either <level> or <category>:<level>. Possible values for level are info, debug, trace (default=debug). The following levels are always logged: error, warning, info. If <category>:<level> is supplied, the setting will override the global one and may be specified multiple times to set multiple category-specific levels. See 'debug' config for allowed category values.",
       "default": ""
+    },
+    "loglevelalways": {
+      "name": "Log Level Always",
+      "description": "Always prepend a category and level.",
+      "default": 0
     },
     "logsourcelocations": {
       "name": "Log Source Locations",
@@ -671,7 +682,7 @@
     },
     "datacarriersize": {
       "name": "Data Carrier Size",
-      "description": "Maximum size of data in data carrier transactions we relay and mine in bytes.",
+      "description": "Maximum size of data in data carrier transactions we relay and mine, in bytes.",
       "default": 42,
       "min": 0
     },
@@ -712,7 +723,7 @@
     },
     "maxscriptsize": {
       "name": "Maximum Script Size",
-      "description": "Maximum size of scripts we relay and mine in bytes.",
+      "description": "Maximum size of scripts we relay and mine, in bytes.",
       "default": 1650,
       "min": 0,
       "knotsExclusive": true
@@ -750,6 +761,22 @@
         "Full RBF [fee,-optin]"
       ],
       "default": "fee,-optin",
+      "knotsExclusive": true
+    },
+    "mempooltruc": {
+      "name": "Mempool Topologically Restricted Until Confirmation (TRUC) Policy",
+      "description": "Behaviour for transactions requesting TRUC limits: \"reject\" the transactions entirely, \"accept\" them just like any other, or \"enforce\" to impose their requested restrictions.",
+      "valueDescriptions": {
+        "reject": "Reject TRUC transactions entirely.",
+        "accept": "Accept TRUC transactions just like any other.",
+        "enforce": "Enforce TRUC transaction restrictions."
+      },
+      "values": [
+        "Reject [reject]",
+        "Accept [accept]",
+        "Enforce [enforce]"
+      ],
+      "default": "accept",
       "knotsExclusive": true
     },
     "whitelistrelay": {
@@ -863,8 +890,8 @@
     },
     "maxconnections": {
       "name": "Max Peer Connections",
-      "shortDescription": "Maintain at most N connections to peers.",
-      "description": "Maintain at most N connections to peers. This limit does not apply to connections manually added via -addnode or the addnode RPC, which have a separate limit of 8.",
+      "shortDescription": "Maintain at most N automatic connections to peers.",
+      "description": "Maintain at most N automatic connections to peers. This limit does not apply to connections manually added via -addnode or the addnode RPC, which have a separate limit of 8.",
       "default": 125,
       "min": 0,
       "max": 250
@@ -889,8 +916,8 @@
     },
     "natpmp": {
       "name": "NAT Port Mapping Protocol",
-      "description": "Use NAT-PMP to map the listening port.",
-      "default": 0
+      "description": "Use NAT-PMP to map the listening port (default: 1 when listening and no -proxy).",
+      "default": 1
     },
     "networkactive": {
       "name": "Network Active",
@@ -925,7 +952,7 @@
     },
     "v2transport": {
       "name": "v2 Transport",
-      "description": "Support v2 transport.",
+      "description": "Support encrypted v2 transport protocol.",
       "default": 1
     },
     "peerblockfilters": {
@@ -1000,8 +1027,8 @@
     },
     "upnp": {
       "name": "Universal Plug 'n Play",
-      "description": "Use UPnP to map the listening port.",
-      "default": 0
+      "description": "Use UPnP to map the listening port (default: 1 when listening and no -proxy).",
+      "default": 1
     },
     "whitebind": {
       "name": "Whitelist Bound IP Address",
@@ -1103,8 +1130,8 @@
     },
     "rpccookieperms": {
       "name": "RPC Cookie Permissions",
-      "description": "Set the permissions on the RPC auth cookie file to the specified octal value.",
-      "default": "600",
+      "description": "Set the permissions on the RPC auth cookie file so that it is readable by [owner|group|all].",
+      "default": "rw-------",
       "knotsExclusive": true
     },
     "rpcauth": {
@@ -1161,19 +1188,6 @@
       "description": "Set the depth of the work queue to service RPC calls",
       "default": 16,
       "min": 1
-    },
-    "rpcserialversion": {
-      "name": "RPC Serialization",
-      "description": "Sets the serialization mode of raw transaction or block hex.",
-      "valueDescriptions": {
-        "0": "Return raw transaction or block hex with non-SegWit serialization.",
-        "1": "Return raw transaction or block hex with SegWit serialization."
-      },
-      "values": [
-        "Non-SegWit (DEPRECATED) [0]",
-        "SegWit [1]"
-      ],
-      "default": "1"
     },
     "rpcservertimeout": {
       "name": "RPC Timeout",
