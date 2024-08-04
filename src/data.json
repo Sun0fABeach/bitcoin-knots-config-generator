@@ -116,7 +116,7 @@
     "assumevalid": {
       "name": "Assume Valid Chain History",
       "shortDescription": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification.",
-      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n000000000000000000032b91acdaaf16f8c40d46afeb835c3ac604860f905d56\ntestnet:\n000000000001323071f38f21ea5aae529ece491eadaccce506a59bcc2d968917\nsignet:\n0000000870f15246ba23c16e370a7ffb1fc8a3dcf8cb4492882ed4b0e3d4cd26.",
+      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n0000000000000000000233ea80aa10d38aa4486cd7033fffc2c4df556d0b9138\ntestnet:\n000000000001323071f38f21ea5aae529ece491eadaccce506a59bcc2d968917\nsignet:\n0000000870f15246ba23c16e370a7ffb1fc8a3dcf8cb4492882ed4b0e3d4cd26.",
       "default": ""
     },
     "coinstatsindex": {
@@ -208,7 +208,7 @@
     "minimumchainwork": {
       "name": "Minimum Chain Work",
       "shortDescription": "Minimum work assumed to exist on a valid chain in hex.",
-      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n00000000000000000000000000000000000000007d24c0c3ca618c566e14ecd0\ntestnet:\n000000000000000000000000000000000000000000000c59b14e264ba6c15db9\nsignet:\n00000000000000000000000000000000000000000000000000000206e86f08e8",
+      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n000000000000000000000000000000000000000086aa99a97e415c3736a51796\ntestnet:\n000000000000000000000000000000000000000000000c59b14e264ba6c15db9\nsignet:\n00000000000000000000000000000000000000000000000000000206e86f08e8",
       "default": "0000000000000000000000000000000000000000792b48315ca0b9035b965b8c"
     },
     "persistmempool": {
@@ -342,7 +342,7 @@
     },
     "checkpoints": {
       "name": "Enable Checkpoints",
-      "description": "Enable rejection of any forks from the known historical chain until block 846679.",
+      "description": "Enable rejection of any forks from the known historical chain until block 855000.",
       "default": 1
     },
     "dbcrashratio": {
@@ -916,8 +916,8 @@
     },
     "natpmp": {
       "name": "NAT Port Mapping Protocol",
-      "description": "Use NAT-PMP to map the listening port (default: 1 when listening and no -proxy).",
-      "default": 1
+      "description": "Use NAT-PMP to map the listening port.",
+      "default": 0
     },
     "networkactive": {
       "name": "Network Active",
@@ -1027,8 +1027,8 @@
     },
     "upnp": {
       "name": "Universal Plug 'n Play",
-      "description": "Use UPnP to map the listening port (default: 1 when listening and no -proxy).",
-      "default": 1
+      "description": "Use UPnP to map the listening port.",
+      "default": 0
     },
     "whitebind": {
       "name": "Whitelist Bound IP Address",
@@ -1136,8 +1136,8 @@
     },
     "rpcauth": {
       "name": "RPC Auth",
-      "shortDescription": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <USERNAME>:<SALT>$<HASH>. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. Can be specified multiple times.",
-      "description": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in share/rpcauth. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. You can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator/. This option can be specified multiple times.",
+      "shortDescription": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <userpw>[:wallet]. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. A single wallet name can also be specified to restrict access to only that wallet, or '-' to deny all wallet access. Can be specified multiple times.",
+      "description": "Username and HMAC-SHA-256 hashed password for JSON-RPC connections, to be provided in the format: <userpw>[:wallet]. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in share/rpcauth. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. A single wallet name can also be specified to restrict access to only that wallet, or '-' to deny all wallet access. You can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator/. This option can be specified multiple times.",
       "default": ""
     },
     "rpcuser": {
