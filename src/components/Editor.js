@@ -46,6 +46,7 @@ class Editor extends Component {
           { this.select('core', 'blockfilterindex') }
           { this.text('core', 'blocknotify') }
           { this.path('core', 'blocksdir', base, platform) }
+          { this.flag('core', 'blocksxor') }
           { this.flag('core', 'blocksonly') }
           { this.text('core', 'assumevalid') }
           { this.flag('core', 'coinstatsindex') }
@@ -70,6 +71,7 @@ class Editor extends Component {
           { this.number('core', 'par') }
           { this.text('core', 'pid') }
           { this.number('core', 'prune') }
+          { this.number('core', 'pruneduringinit') }
           { this.flag('core', 'reindex-chainstate') }
           { this.flag('core', 'reindex') }
           { this.text('core', 'settings') }
@@ -81,7 +83,6 @@ class Editor extends Component {
         <Section title={data.debug.section} description={data.debug.description}>
           { this.text('debug', 'uacomment') }
           { this.flag('debug', 'acceptstalefeeestimates') }
-          { this.flag('debug', 'addrmantest') }
           { this.flag('debug', 'capturemessages') }
           { this.flag('debug', 'checkblockindex') }
           { this.number('debug', 'checkblocks') }
@@ -93,6 +94,7 @@ class Editor extends Component {
           { this.flag('debug', 'fastprune') }
           { this.flag('debug', 'stopafterblockimport') }
           { this.number('debug', 'stopatheight') }
+          { this.text('debug', 'test') }
           { this.text('debug', 'testactivationheight') }
           { this.number('debug', 'limitancestorcount') }
           { this.number('debug', 'limitancestorsize') }
@@ -120,6 +122,7 @@ class Editor extends Component {
         <Section title={data.chain.section} description={data.chain.description}>
           { this.select('chain', 'chain') }
           { this.flag('chain', 'testnet') }
+          { this.flag('chain', 'testnet4') }
           { this.flag('chain', 'regtest') }
           { this.flag('chain', 'signet') }
           { this.text('chain', 'signetchallenge') }
@@ -155,22 +158,21 @@ class Editor extends Component {
           { this.number('network', 'maxconnections') }
           { this.number('network', 'maxreceivebuffer') }
           { this.number('network', 'maxsendbuffer') }
-          { this.number('network', 'maxtimeadjustment') }
           { this.flag('network', 'natpmp') }
           { this.flag('network', 'networkactive') }
           { this.text('network', 'onion') }
           { this.select('network', 'onlynet') }
           { this.flag('network', 'v2transport') }
+          { this.flag('network', 'v2onlyclearnet') }
           { this.flag('network', 'peerblockfilters') }
           { this.flag('network', 'peerbloomfilters') }
           { this.number('network', 'peertimeout') }
-          { this.number('network', 'port') }
+          { this.text('network', 'port') }
           { this.text('network', 'proxy') }
           { this.flag('network', 'proxyrandomize') }
           { this.text('network', 'seednode') }
           { this.number('network', 'timeout') }
           { this.text('network', 'torcontrol') }
-          { this.text('network', 'torexecute') }
           { this.text('network', 'torpassword') }
           { this.flag('network', 'txreconciliation') }
           { this.text('network', 'uaappend') }
@@ -212,12 +214,12 @@ class Editor extends Component {
           { this.text('rpc', 'rpcbind') }
           { this.flag('rpc', 'rpcdoccheck') }
           { this.path('rpc', 'rpccookiefile', base, platform) }
-          { this.text('rpc', 'rpccookieperms') }
+          { this.select('rpc', 'rpccookieperms') }
           { this.text('rpc', 'rpcauth') }
           { this.text('rpc', 'rpcuser') }
           { this.text('rpc', 'rpcpassword') }
           { this.text('rpc', 'rpcauthfile') }
-          { this.number('rpc', 'rpcport') }
+          { this.text('rpc', 'rpcport') }
           { this.text('rpc', 'rpcallowip') }
           { this.flag('rpc', 'rpcwhitelistdefault') }
           { this.text('rpc', 'rpcwhitelist') }
@@ -251,6 +253,7 @@ class Editor extends Component {
           { this.number('wallet', 'dblogsize') }
           { this.flag('wallet', 'flushwallet') }
           { this.flag('wallet', 'privdb') }
+          { this.flag('wallet', 'swapbdbendian') }
           { this.flag('wallet', 'walletrejectlongchains') }
           { this.flag('wallet', 'walletcrosschain') }
         </Section>
