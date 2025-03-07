@@ -20,20 +20,28 @@
       "valueDescriptions": {
         "main": "Use main network.",
         "test": "Use test network.",
+        "testnet4": "Use test network.",
         "signet": "Use signature network.",
         "regtest": "Use regression test network."
       },
       "values": [
         "Mainnet [main]",
         "Testnet [test]",
+        "Testnet 4 [testnet4]",
         "Signet [signet]",
         "Regtest [regtest]"
       ],
       "default": "main"
     },
     "testnet": {
-      "name": "Testnet",
-      "description": "Run this node on the Bitcoin Test Network. Equivalent to -chain=test",
+      "name": "Use Testnet",
+      "shortDescription": "Run this node on the testnet3 chain. Equivalent to -chain=test.",
+      "description": "Use the testnet3 chain. Equivalent to -chain=test. Support for testnet3 is deprecated and will be removed in an upcoming release. Consider moving to testnet4 now by using -testnet4.",
+      "default": 0
+    },
+    "testnet4": {
+      "name": "Use Testnet 4",
+      "description": "Use the testnet4 chain. Equivalent to -chain=testnet4.",
       "default": 0
     },
     "regtest": {
@@ -107,6 +115,12 @@
       "description": "Specify a non-default location to store blockchain data.",
       "default": "$BASE/blocks"
     },
+    "blocksxor": {
+      "name": "Blocks Data XOR",
+      "shortDescription": "Whether an XOR-key applies to blocksdir *.dat files.",
+      "description": "Whether an XOR-key applies to blocksdir *.dat files. The created XOR-key will be zeros for an existing blocksdir or when `-blocksxor=0` is set, and random for a freshly initialized blocksdir.",
+      "default": 1
+    },
     "blocksonly": {
       "name": "Blocks Only Mode",
       "shortDescription": "Only download and relay blocks - ignore unconfirmed transactions.",
@@ -116,7 +130,7 @@
     "assumevalid": {
       "name": "Assume Valid Chain History",
       "shortDescription": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification.",
-      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n0000000000000000000233ea80aa10d38aa4486cd7033fffc2c4df556d0b9138\ntestnet:\n000000000001323071f38f21ea5aae529ece491eadaccce506a59bcc2d968917\nsignet:\n0000000870f15246ba23c16e370a7ffb1fc8a3dcf8cb4492882ed4b0e3d4cd26.",
+      "description": "If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (performance boost during initial sync). Set to 0 to verify all blocks.\ndefault:\n000000000000000000006e926737e6a349f7581525ad36e743dfe5f4bc3abbb7\ntestnet3:\n000000000000000465b1a66c9f386308e8c75acef9201f3f577811da09fc90ad\ntestnet4:\n000000005be348057db991fa5d89fe7c4695b667cfb311391a8db374b6f681fd\nsignet:\n0000014aad1d58dddcb964dd749b073374c6306e716b22f573a2efe68d414539.",
       "default": ""
     },
     "coinstatsindex": {
@@ -142,7 +156,7 @@
     "dbbatchsize": {
       "name": "DB Batch Size",
       "description": "Maximum database write batch size in bytes.",
-      "default": 16777216,
+      "default": 67108864,
       "min": 1024
     },
     "dbcache": {
@@ -156,7 +170,7 @@
     "dbfilesize": {
       "name": "DB File Size",
       "description": "Target size of files within databases, in MiB.",
-      "default": 128,
+      "default": 64,
       "min": 1,
       "max": 1024,
       "knotsExclusive": true
@@ -208,8 +222,8 @@
     "minimumchainwork": {
       "name": "Minimum Chain Work",
       "shortDescription": "Minimum work assumed to exist on a valid chain in hex.",
-      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n000000000000000000000000000000000000000086aa99a97e415c3736a51796\ntestnet:\n000000000000000000000000000000000000000000000c59b14e264ba6c15db9\nsignet:\n00000000000000000000000000000000000000000000000000000206e86f08e8",
-      "default": "0000000000000000000000000000000000000000792b48315ca0b9035b965b8c"
+      "description": "Minimum work assumed to exist on a valid chain in hex.\ndefault:\n0000000000000000000000000000000000000000b08ea5865bede3101629fa0e\ntestnet3:\n000000000000000000000000000000000000000000000f209695166be8b61fa9\ntestnet4:\n00000000000000000000000000000000000000000000005faa15d02e6202f3ba\nsignet:\n0000000000000000000000000000000000000000000000000000025dbd66e58f",
+      "default": "0000000000000000000000000000000000000000b08ea5865bede3101629fa0e"
     },
     "persistmempool": {
       "name": "Persist Mempool",
@@ -244,6 +258,12 @@
       "default": 0,
       "min": 0
     },
+    "pruneduringinit": {
+      "name": "Prune During Init",
+      "shortDescription": "Temporarily adjusts the -prune setting until initial sync completes.",
+      "description": "Temporarily adjusts the -prune setting until initial sync completes. Ignored if pruning is disabled. (default: -1 = same value as -prune).",
+      "default": -1
+    },
     "reindex-chainstate": {
       "name": "Reindex Chainstate",
       "shortDescription": "Reindex chain state from the currently indexed blocks.",
@@ -270,7 +290,7 @@
     "softwareexpiry": {
       "name": "Software Expiry",
       "description": "Stop working after this POSIX timestamp.",
-      "default": "1767251360",
+      "default": "1825593420",
       "knotsExclusive": true
     },
     "startupnotify": {
@@ -298,11 +318,6 @@
       "description": "Read fee estimates even if they are stale (regtest only) fee estimates are considered stale if they are 60 hours old.",
       "default": 0
     },
-    "addrmantest": {
-      "name": "Address Manager Test",
-      "description": "Allows you to test address relay on localhost.",
-      "default": 0
-    },
     "capturemessages": {
       "name": "Capture Messages",
       "description": "Capture all P2P messages to disk.",
@@ -310,7 +325,8 @@
     },
     "checkblockindex": {
       "name": "Check Block Index",
-      "description": "Do a consistency check for the block tree, chainstate, and other validation data structures occasionally (default: 0, regtest: 1).",
+      "shortDescription": "Do a consistency check for the block tree, chainstate, and other validation data structures every <n> operations.",
+      "description": "Do a consistency check for the block tree, chainstate, and other validation data structures every <n> operations. Use 0 to disable. (default: 0, regtest: 1).",
       "default": 0
     },
     "checkblocks": {
@@ -342,7 +358,7 @@
     },
     "checkpoints": {
       "name": "Enable Checkpoints",
-      "description": "Enable rejection of any forks from the known historical chain until block 855000.",
+      "description": "Enable rejection of any forks from the known historical chain until block 885248.",
       "default": 1
     },
     "dbcrashratio": {
@@ -366,6 +382,11 @@
       "name": "Stop At Height",
       "description": "Stop running after reaching the given height in the main chain.",
       "default": 0
+    },
+    "test": {
+      "name": "Test-Only Option",
+      "description": "Pass a test-only option. Options include: addrman (use deterministic addrman).",
+      "default": ""
     },
     "testactivationheight": {
       "name": "Test Activation Height",
@@ -398,10 +419,10 @@
     },
     "debug": {
       "name": "Debug Logging",
-      "description": "Output debug and trace logging. If set to 1, output for all categories. This option can be specified multiple times to output multiple categories.",
+      "description": "Output debug and trace logging. If set to 1 or \"all\", output for all categories. If set to 0 or \"none\", disable for all categories. This option can be specified multiple times to output multiple categories.",
       "valueDescriptions": {
-        "0": "Disable debug logging.",
-        "1": "Enable debug logging for all categories.",
+        "none": "Disable debug logging.",
+        "all": "Enable debug logging for all categories.",
         "addrman": "Enable address manager logging.",
         "bench": "Enable benchmark logging.",
         "blockstorage": "Enable block storage logging.",
@@ -427,14 +448,13 @@
         "tor": "Enable Tor logging.",
         "txpackages": "Enable transaction packages logging.",
         "txreconciliation": "Enable transaction reconciliation logging.",
-        "util": "Enable utility logging.",
         "validation": "Enable transaction validation logging.",
         "walletdb": "Enable wallet database logging.",
         "zmq": "Enable ZeroMQ logging."
       },
       "values": [
-        "Disable [0]",
-        "Enable All [1]",
+        "Disable [none]",
+        "Enable All [all]",
         "Address Manager [addrman]",
         "Benchmarking [bench]",
         "Block Storage [blockstorage]",
@@ -461,16 +481,15 @@
         "Tor [tor]",
         "TX Packages [txpackages]",
         "TX Reconciliation [txreconciliation]",
-        "Utility [util]",
         "TX Validation [validation]",
         "Wallet DB [walletdb]",
         "ZeroMQ [zmq]"
       ],
-      "default": "0"
+      "default": "none"
     },
     "debugexclude": {
       "name": "Exclude Debug Logging",
-      "description": "Exclude debug and trace logging for a category. Can be used in conjunction with -debug=1 to output debug and trace logging for all categories except the specified category. This option can be specified multiple times to exclude multiple categories.",
+      "description": "Exclude debug and trace logging for a category. Can be used in conjunction with -debug=1 to output debug and trace logging for all categories except the specified category. This option can be specified multiple times to exclude multiple categories. This takes priority over \"-debug\".",
       "valueDescriptions": {
         "0": "Don't exclude any logging.",
         "addrman": "Exclude address manager logging.",
@@ -498,7 +517,6 @@
         "tor": "Exclude Tor logging.",
         "txpackages": "Exclude transaction packages logging.",
         "txreconciliation": "Exclude transaction reconciliation logging.",
-        "util": "Exclude utility logging.",
         "validation": "Exclude transaction validation logging.",
         "walletdb": "Exclude wallet database logging.",
         "zmq": "Exclude ZeroMQ logging."
@@ -531,7 +549,6 @@
         "Tor [tor]",
         "TX Packages [txpackages]",
         "TX Reconciliation [txreconciliation]",
-        "Utility [util]",
         "TX Validation [validation]",
         "Wallet DB [walletdb]",
         "ZeroMQ [zmq]"
@@ -551,7 +568,7 @@
     "loglevel": {
       "name": "Log Level",
       "shortDescription": "Set the global or per-category severity level for logging in the format of either <level> or <category>:<level>. Level values may be: info, debug, or trace. Format <category>:<level> may be specified multiple times.",
-      "description": "Set the global or per-category severity level for logging categories enabled with the -debug configuration option or the logging RPC in the format or either <level> or <category>:<level>. Possible values for level are info, debug, trace (default=debug). The following levels are always logged: error, warning, info. If <category>:<level> is supplied, the setting will override the global one and may be specified multiple times to set multiple category-specific levels. See 'debug' config for allowed category values.",
+      "description": "Set the global or per-category severity level for logging categories enabled with the -debug configuration option or the logging RPC in the format or either <level> or <category>:<level>. Possible values for level are info, debug, trace (default=debug). The following levels are always logged: error, warning, info. If <category>:<level> is supplied, the setting will override the global one and may be specified multiple times to set multiple category-specific levels. See '-debug' config for allowed category values.",
       "default": ""
     },
     "loglevelalways": {
@@ -566,7 +583,7 @@
     },
     "logthreadnames": {
       "name": "Log Thread Names",
-      "description": "Prepend debug output with name of the originating thread (only available on platforms supporting thread_local).",
+      "description": "Prepend debug output with name of the originating thread.",
       "default": 0
     },
     "logtimestamps": {
@@ -658,7 +675,7 @@
     },
     "dustdynamic": {
       "name": "Dynamic Dust Relay Fee",
-      "description": "Automatically raise dustrelayfee based on either the expected fee to be mined within <blocks> blocks, or to be within the best <kvB> kvB of this node's mempool. If unspecified, multiplier is 3000. Specify in format: off|[<multiplier>*]target:<blocks>|[<multiplier>*]mempool:<kvB>",
+      "description": "Automatically raise dustrelayfee based on either the expected fee to be mined within <blocks> blocks, or to be within the best <kvB> kvB of this node's mempool. Specify in format: off|[<multiplier>*]target:<blocks>|[<multiplier>*]mempool:<kvB>. If unspecified, multiplier is 3.",
       "default": "off",
       "knotsExclusive": true
     },
@@ -700,7 +717,7 @@
     },
     "permitbaremultisig": {
       "name": "Permit Bare Multisig",
-      "description": "Relay non-P2SH multisig transactions.",
+      "description": "Relay transactions creating non-P2SH multisig outputs.",
       "default": 0
     },
     "permitbarepubkey": {
@@ -730,10 +747,10 @@
     },
     "spkreuse": {
       "name": "Script And Public Key Reuse",
-      "description": "Accept transactions reusing addresses or other pubkey scripts.",
+      "description": "Set to \"allow\" to relay/mine transactions reusing addresses or other pubkey scripts, or \"conflict\" to treat them as exclusive prior to being mined.",
       "valueDescriptions": {
-        "allow": "Accept transactions reusing addresses or other pubkey scripts.",
-        "conflict": "Reject transactions reusing addresses or other pubkey scripts."
+        "allow": "Relay/mine transactions reusing addresses or other pubkey scripts.",
+        "conflict": "Treat transactions reusing addresses or other pubkey scripts as exclusive prior to being mined."
       },
       "values": [
         "Allow [allow]",
@@ -818,7 +835,7 @@
     },
     "bind": {
       "name": "Bind to IP Address",
-      "description": "Bind to given address and always listen on it (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections. (default: 127.0.0.1:8334=onion, testnet: 127.0.0.1:18334=onion, signet: 127.0.0.1:38334=onion, regtest: 127.0.0.1:18445=onion.",
+      "description": "Bind to given address and always listen on it (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections. (default: 127.0.0.1:8334=onion, testnet3: 127.0.0.1:18334=onion, testnet4: 127.0.0.1:18334=onion, signet: 127.0.0.1:38334=onion, regtest: 127.0.0.1:18445=onion.",
       "default": ""
     },
     "cjdnsreachable": {
@@ -876,7 +893,8 @@
     },
     "i2psam": {
       "name": "I2P SAM Proxy",
-      "description": "I2P SAM proxy <ip:port> to reach I2P peers and accept I2P connections."
+      "description": "I2P SAM proxy <ip:port> to reach I2P peers and accept I2P connections.",
+      "default": ""
     },
     "listen": {
       "name": "Listen for Incoming Connections",
@@ -908,12 +926,6 @@
       "default": 1000,
       "min": 100
     },
-    "maxtimeadjustment": {
-      "name": "Max Time Adjustment",
-      "description": "Maximum allowed median peer time offset adjustment in seconds. Local perspective of time may be influenced by outbound peers forward or backward by this amount.",
-      "default": 4200,
-      "min": 0
-    },
     "natpmp": {
       "name": "NAT Port Mapping Protocol",
       "description": "Use NAT-PMP to map the listening port.",
@@ -926,7 +938,8 @@
     },
     "onion": {
       "name": "Tor Proxy",
-      "description": "Use separate SOCKS5 proxy <ip:port> to reach peers via Tor hidden services. Set -noonion to disable.",
+      "shortDescription": "Use separate SOCKS5 proxy <ip:port|path> to reach peers via Tor hidden services.",
+      "description": "Use separate SOCKS5 proxy <ip:port|path> to reach peers via Tor hidden services. Set -noonion to disable (default: -proxy). May be a local file path prefixed with 'unix:'.",
       "default": ""
     },
     "onlynet": {
@@ -955,6 +968,12 @@
       "description": "Support encrypted v2 transport protocol.",
       "default": 1
     },
+    "v2onlyclearnet": {
+      "name": "v2 Only Clearnet",
+      "shortDescription": "Disallow outbound v1 connections on IPV4/IPV6.",
+      "description": "Disallow outbound v1 connections on IPV4/IPV6. Enable this option only if you really need it. Use -listen=0 to disable inbound connections since they can be unencrypted.",
+      "default": 0
+    },
     "peerblockfilters": {
       "name": "Permit Peer Block Filters",
       "description": "Serve compact block filters to peers per BIP 157. NOTE: enabling this will force blockfilterindex on",
@@ -973,13 +992,14 @@
     },
     "port": {
       "name": "Listen Port",
-      "shortDescription": "Listen for incoming connections on non-default port. Defaults: (default: 8333, testnet: 18333, signet: 38333, regtest: 18444). Not relevant for I2P.",
-      "description": "Listen for incoming connections on non-default port. Nodes not using the default ports (default: 8333, testnet: 18333, signet: 38333, regtest: 18444) are unlikely to get incoming connections. Not relevant for I2P.",
+      "shortDescription": "Listen for incoming connections on non-default port. Defaults: (default: 8333, testnet3: 18333, testnet4: 48333, signet: 38333, regtest: 18444).",
+      "description": "Listen for incoming connections on non-default port. Defaults: (default: 8333, testnet: 18333, signet: 38333, regtest: 18444). Not relevant for I2P. If set to a value x, the default onion listening port will be set to x+1.",
       "default": ""
     },
     "proxy": {
       "name": "Proxy Connection",
-      "description": "Connect through <ip:port> SOCKS5 proxy, set -noproxy to disable.",
+      "shortDescription": "Connect through <ip:port|path> SOCKS5 proxy, set -noproxy to disable.",
+      "description": "Connect through <ip:port|path> SOCKS5 proxy, set -noproxy to disable. May be a local file path prefixed with 'unix:' if the proxy supports it.",
       "default": "noproxy"
     },
     "proxyrandomize": {
@@ -989,7 +1009,8 @@
     },
     "seednode": {
       "name": "Seed Node",
-      "description": "Connect to a node (IP address) to retrieve peer addresses, then disconnect. This option can be specified multiple times to connect to multiple nodes.",
+      "shortDescription": "Connect to a node (IP address) to retrieve peer addresses, then disconnect. Can be specified multiple times.",
+      "description": "Connect to a node (IP address) to retrieve peer addresses, then disconnect. This option can be specified multiple times to connect to multiple nodes. During startup, seed nodes will be tried before DNS seeds.",
       "default": ""
     },
     "timeout": {
@@ -1002,12 +1023,6 @@
       "name": "Tor Control",
       "description": "Tor control <ip:port> to use if onion listening enabled. If no port is specified, the default port of 9051 will be used.",
       "default": "127.0.0.1:9051"
-    },
-    "torexecute": {
-      "name": "Tor Control",
-      "description": "Tor command to use if not already running.",
-      "default": "tor",
-      "knotsExclusive": true
     },
     "torpassword": {
       "name": "Tor Control Password",
@@ -1130,8 +1145,18 @@
     },
     "rpccookieperms": {
       "name": "RPC Cookie Permissions",
-      "description": "Set the permissions on the RPC auth cookie file so that it is readable by [owner|group|all].",
-      "default": "rw-------",
+      "description": "Set the permissions on the RPC auth cookie file so that it is readable by [owner|group|all] (default: owner [via umask 0077]).",
+      "valueDescriptions": {
+        "owner": "RPC auth cookie file is readable by owner.",
+        "group": "RPC auth cookie file is readable by group.",
+        "all": "RPC auth cookie file is readable by all users."
+      },
+      "values": [
+        "Owner [owner]",
+        "Group [group]",
+        "All [all]"
+      ],
+      "default": "owner",
       "knotsExclusive": true
     },
     "rpcauth": {
@@ -1158,8 +1183,8 @@
     },
     "rpcport": {
       "name": "RPC Port",
-      "description": "Listen for JSON-RPC connections on this port (default: 8332, testnet: 18332, signet: 38332, regtest: 18443).",
-      "default": 8332
+      "description": "Listen for JSON-RPC connections on this port (default: 8332, testnet3: 18332, testnet4: 48332, signet: 38332, regtest: 18443).",
+      "default": ""
     },
     "rpcallowip": {
       "name": "RPC Allow IP Address",
@@ -1180,13 +1205,13 @@
     "rpcthreads": {
       "name": "RPC Threads",
       "description": "Set the number of threads to service RPC calls",
-      "default": 4,
+      "default": 16,
       "min": 1
     },
     "rpcworkqueue": {
       "name": "RPC Work Queue Size",
       "description": "Set the depth of the work queue to service RPC calls",
-      "default": 16,
+      "default": 64,
       "min": 1
     },
     "rpcservertimeout": {
@@ -1359,6 +1384,11 @@
       "name": "Private DB",
       "description": "Set the DB_PRIVATE flag in the wallet db environment.",
       "default": 1
+    },
+    "swapbdbendian": {
+      "name": "Swap DB Endianness",
+      "description": "Swaps the internal endianness of BDB wallet databases.",
+      "default": 0
     },
     "walletrejectlongchains": {
       "name": "Reject Long Transaction Chains",
