@@ -192,7 +192,7 @@ class Editor extends Component {
           { this.number('relay', 'bytespersigopstrict') }
           { this.flag('relay', 'datacarrier') }
           { this.number('relay', 'datacarriersize') }
-          { this.flag('relay', 'datacarriercost') }
+          { this.number('relay', 'datacarriercost') }
           { this.flag('relay', 'datacarrierfullcount') }
           { this.flag('relay', 'permitbaremultisig') }
           { this.flag('relay', 'permitbarepubkey') }
